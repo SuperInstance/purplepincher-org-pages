@@ -1,166 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>purplepincher.org - AI Demo</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0a0f; color: #e0e0e0; min-height: 100vh; }
-        .container { max-width: 900px; margin: 0 auto; padding: 2rem; }
-        header { text-align: center; padding: 3rem 0; border-bottom: 1px solid #1a1a2e; margin-bottom: 2rem; }
-        h1 { font-size: 2.5rem; background: linear-gradient(135deg, #00d4ff, #7b2fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
-        .subtitle { color: #888; font-size: 1.1rem; }
-        .status-bar { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
-        .status-item { background: #12121a; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.85rem; border: 1px solid #2a2a3e; }
-        .status-item.online { border-color: #00ff88; color: #00ff88; }
-        .chat-container { background: #12121a; border-radius: 16px; border: 1px solid #2a2a3e; overflow: hidden; margin-bottom: 2rem; }
-        .chat-header { background: #1a1a2e; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.75rem; }
-        .chat-dot { width: 10px; height: 10px; border-radius: 50%; background: #00ff88; animation: pulse 2s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .chat-title { font-weight: 600; }
-        .chat-messages { height: 350px; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
-        .message { display: flex; gap: 0.75rem; max-width: 85%; }
-        .message.user { align-self: flex-end; flex-direction: row-reverse; }
-        .message-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
-        .message.assistant .message-avatar { background: linear-gradient(135deg, #7b2fff, #00d4ff); }
-        .message.user .message-avatar { background: #2a2a3e; }
-        .message-content { background: #1a1a2e; padding: 0.875rem 1.25rem; border-radius: 16px; line-height: 1.5; }
-        .message.user .message-content { background: #7b2fff; }
-        .chat-input-area { padding: 1rem 1.5rem; background: #0f0f18; border-top: 1px solid #2a2a3e; display: flex; gap: 0.75rem; }
-        .chat-input { flex: 1; background: #1a1a2e; border: 1px solid #2a2a3e; border-radius: 24px; padding: 0.875rem 1.25rem; color: #e0e0e0; font-size: 1rem; outline: none; }
-        .chat-input:focus { border-color: #7b2fff; }
-        .send-btn { background: linear-gradient(135deg, #7b2fff, #00d4ff); border: none; border-radius: 50%; width: 48px; height: 48px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: transform 0.2s; }
-        .send-btn:hover { transform: scale(1.05); }
-        .send-btn svg { width: 20px; height: 20px; fill: white; }
-        .providers { margin-top: 2rem; }
-        .providers h2 { font-size: 1.25rem; margin-bottom: 1rem; color: #888; text-transform: uppercase; letter-spacing: 0.1em; }
-        .provider-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-        .provider-card { background: #12121a; border: 1px solid #2a2a3e; border-radius: 12px; padding: 1.5rem; text-align: center; transition: border-color 0.3s; }
-        .provider-card:hover { border-color: #7b2fff; }
-        .provider-card h3 { margin-bottom: 0.5rem; }
-        .provider-card p { font-size: 0.85rem; color: #888; }
-        .powered-by { text-align: center; margin-top: 2rem; padding: 1rem; background: #12121a; border-radius: 8px; color: #666; font-size: 0.85rem; }
-        .powered-by a { color: #00d4ff; text-decoration: none; }
-        footer { text-align: center; padding: 2rem; margin-top: 2rem; border-top: 1px solid #1a1a2e; color: #666; font-size: 0.85rem; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦀 purplepincher.org — Open Source Agent Shell Technology</title>
+<style>
+:root { --bg: #0a0d12; --card: #111827; --accent: #8b5cf6; --accent2: #f59e0b; --text: #e5e7eb; --muted: #9ca3af; --border: #1f2937; --radar: #10b981; }
+body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
+header { background: linear-gradient(180deg, #1a1028 0%, var(--bg) 100%); border-bottom: 1px solid var(--border); padding: 3rem 2rem; text-align: center; }
+header h1 { color: var(--accent); font-size: 2.5rem; margin: 0; }
+header .subtitle { color: var(--accent2); font-size: 1rem; margin-top: 0.5rem; }
+header .tagline { color: var(--muted); margin-top: 1rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+.section { margin-bottom: 3rem; }
+h2 { color: var(--accent2); border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.image-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+.image-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+.image-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.image-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.image-card .caption { padding: 1rem; font-size: 0.85rem; color: var(--muted); }
+.concept { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 2rem; margin-bottom: 1.5rem; }
+.concept h3 { color: var(--accent); margin-top: 0; }
+.concept code { background: var(--bg); padding: 0.2rem 0.4rem; border-radius: 4px; color: var(--radar); }
+.quote { font-style: italic; color: var(--accent2); border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1.5rem 0; }
+footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 2rem; border-top: 1px solid var(--border); margin-top: 3rem; }
+footer a { color: var(--radar); }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>purplepincher.org</h1>
-            <p class="subtitle">Fleet-ready AI chatbot integration demo</p>
-            <div class="status-bar">
-                <span class="status-item online">● PLATO MCP Connected</span>
-                <span class="status-item">● Cocapn Fleet</span>
-                <span class="status-item">● Cloudflare Pages</span>
-            </div>
-        </header>
-        
-        <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-dot"></div>
-                <span class="chat-title">Cocapn Fleet AI</span>
-            </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="message assistant">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">Ahoy! I'm connected to the Cocapn fleet via PLATO MCP. I can access the knowledge graph and help navigate the fleet. What can I help you with today?</div>
-                </div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about the fleet, knowledge graph, or any domain..." onkeypress="if(event.key==='Enter')sendMessage()">
-                <button class="send-btn" onclick="sendMessage()">
-                    <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-            </div>
-        </div>
-        
-        <div class="providers">
-            <h2>Available Providers</h2>
-            <div class="provider-grid">
-                <div class="provider-card">
-                    <h3>🧠 GLM (z.ai)</h3>
-                    <p>Primary reasoning engine</p>
-                </div>
-                <div class="provider-card">
-                    <h3>🌊 DeepSeek</h3>
-                    <p>Fast second opinions</p>
-                </div>
-                <div class="provider-card">
-                    <h3>🌙 Kimi (Moonshot)</h3>
-                    <p>Deep research & analysis</p>
-                </div>
-                <div class="provider-card">
-                    <h3>🔮 Oracle1</h3>
-                    <p>Knowledge keeper</p>
-                </div>
-            </div>
-        </div>
-        
-        <div class="powered-by">
-            Powered by <a href="https://github.com/SuperInstance">SuperInstance</a> fleet infrastructure · 
-            Built on <a href="https://cocapn.ai">Cocapn</a> principles · 
-            <a href="https://github.com/SuperInstance/purplepincher.org">View Source</a>
-        </div>
-    </div>
-    
-    <footer>
-        <p>purplepincher.org · Part of the Cocapn fleet</p>
-        <p style="margin-top: 0.5rem;">The lighthouse keeper monitors agent proximity. Radar rings = fleet discovery.</p>
-    </footer>
+<header>
+  <div style="font-size:3rem;">🦀</div>
+  <h1>purplepincher.org</h1>
+  <div class="subtitle">Open Source Agent Shell Technology</div>
+  <div class="tagline">The agent/vessel separation: elegant solution to context compaction. Actions and outputs saved as functional tools in PLATO for later agents.</div>
+</header>
 
-    <script>
-        let messageCount = 0;
-        
-        async function sendMessage() {
-            const input = document.getElementById('chatInput');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const messages = document.getElementById('chatMessages');
-            
-            // Add user message
-            messages.innerHTML += `
-                <div class="message user">
-                    <div class="message-avatar">👤</div>
-                    <div class="message-content">${escapeHtml(text)}</div>
-                </div>
-            `;
-            
-            input.value = '';
-            messages.scrollTop = messages.scrollHeight;
-            
-            // Simulate response (PLATO MCP would be called here)
-            messages.innerHTML += `
-                <div class="message assistant">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">${getDynamicResponse(text)}</div>
-                </div>
-            `;
-            messages.scrollTop = messages.scrollHeight;
-        }
-        
-        function escapeHtml(text) {
-            return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-        }
-        
-        function getDynamicResponse(input) {
-            const lower = input.toLowerCase();
-            if (lower.includes('hello') || lower.includes('hi')) {
-                return "Welcome aboard! The fleet is ready. How can I help navigate your request?";
-            }
-            if (lower.includes('fleet')) {
-                return "The Cocapn fleet spans 90+ repos, 48 npm packages, and 18 crates. Every agent leaves more capable than they arrived. That's the dojo model.";
-            }
-            if (lower.includes('cocapn') || lower.includes('keeper')) {
-                return "The lighthouse keeper monitors agent proximity. Radar rings = fleet discovery. Architecture IS the brand.";
-            }
-            if (lower.includes('mcp') || lower.includes('plato')) {
-                return "PLATO is the fleet's knowledge graph - 10,000+ tiles of context, constantly learning. MCP tools connect agents to shared memory.";
-            }
-            return `Good question! I've noted your query about "${escapeHtml(input.substring(0,50))}..." — the fleet will process this through PLATO MCP. Try asking about 'fleet', 'cocapn', or 'mcp' for specific responses.`;
-        }
-    </script>
+<div class="container">
+
+<div class="section">
+<h2>🖼️ Branding Images — Steampunk Lighthouse Shell</h2>
+<p style="color:var(--muted);font-size:0.9rem;">Generated via DeepInfra SDXL Turbo. Free to use for cocapn/purplepincher branding.</p>
+<div class="image-grid">
+<div class="image-card"><img src="pp-01.png" alt="steampunk lighthouse radar"><div class="caption">Steampunk lighthouse + radar rings</div></div>
+<div class="image-card"><img src="pp-02.png" alt="gears and radar dishes"><div class="caption">Gears + radar dishes</div></div>
+<div class="image-card"><img src="pp-03.png" alt="turbo-shell mechanical armor"><div class="caption">Mechanical armor + glowing radar</div></div>
+<div class="image-card"><img src="pp-04.png" alt="mini lighthouse rotating radar"><div class="caption">Mini lighthouse shell + rotating radar</div></div>
+<div class="image-card"><img src="pp-05.png" alt="steampunk mechanical shell"><div class="caption">Cozy steampunk mechanical shell</div></div>
+<div class="image-card"><img src="pp-06.png" alt="copper pipes and gears"><div class="caption">Copper pipes + gears + radar</div></div>
+</div>
+</div>
+
+<div class="section">
+<h2>🎨 Logo Variants</h2>
+<div class="image-grid">
+<div class="image-card"><img src="v3-simple.png" alt="simple clean art"><div class="caption">Simple clean style</div></div>
+<div class="image-card"><img src="v5-logo-friendly.png" alt="logo friendly"><div class="caption">Logo-friendly (flat design)</div></div>
+<div class="image-card"><img src="v6-cute.png" alt="cute kawaii"><div class="caption">Cute kawaii style</div></div>
+<div class="image-card"><img src="v8-badge.png" alt="heraldic badge"><div class="caption">Heraldic badge / crest</div></div>
+</div>
+</div>
+
+<div class="section">
+<h2>🚀 Wide & Cinematic</h2>
+<div class="image-grid" style="grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));">
+<div class="image-card"><img src="v1-wider.png" alt="wide cinematic"><div class="caption">Wide cinematic — ocean + lighthouse</div></div>
+<div class="image-card"><img src="v7-fleet.png" alt="fleet of crabs"><div class="caption">Fleet of crabs in steampunk shells</div></div>
+</div>
+</div>
+
+<div class="section concept">
+<h2>🦀 The Agent/Vessel Separation</h2>
+<p>Context compaction is the biggest problem for most agents. Our elegant solution:</p>
+<blockquote class="quote">
+"Context of each agent doesn't matter because the actions and outputs of the agents are saved in the Plato as functional tools for later agents."
+</blockquote>
+<p><strong>AGENT</strong> = inner thinking part (swappable, Lora-trainable)<br>
+<strong>VESSEL</strong> = persistent shell (improves with every inference)<br>
+<strong>SHELL</strong> = agent + vessel in PLATO<br>
+<strong>Actions/outputs</strong> → functional tools in PLATO → later agents use without carrying context</p>
+<p style="margin-top:1rem;">Vessels can even be <strong>Lora-trained</strong> from shell interactions and swapped at will.</p>
+<p>Git-agent (I2i = intent-to-inference) logs actions to PLATO — like git commits, but for agent workflows.</p>
+</div>
+
+<div class="section concept">
+<h2>📦 Open Source Shell Library</h2>
+<p>Pre-built vessels for common domains:</p>
+<ul>
+<li><code>fishinglog-vessel</code> — sonar data → PLATO tool</li>
+<li><code>activelog-vessel</code> — health tracking → PLATO tool</li>
+<li><code>reallog-vessel</code> — camera vision → PLATO tool</li>
+<li><code>studylog-vessel</code> — study sessions → PLATO tool</li>
+</ul>
+<p style="margin-top:1rem;">The dojo model: agents come in at any level, produce value while learning, leave with a better vessel.</p>
+</div>
+
+</div>
+
+<footer>
+  <p>purplepincher.org — Open source agent shell technology</p>
+  <p>Generated with DeepInfra SDXL Turbo · PLATO · Cocapn Fleet</p>
+</footer>
 </body>
 </html>
