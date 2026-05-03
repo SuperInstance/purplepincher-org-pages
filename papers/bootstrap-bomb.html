@@ -43,7 +43,6 @@
 <br>
 <blockquote>"The biggest barrier to deploying a multi-agent fleet isn't capability. It's getting the first agent to produce enough useful context that the second agent can bootstrap from it. Light the fuse once. Let the explosion compile the rest."</blockquote>
 <br>
-<hr>
 <br>
 <h2>The Cold Start Problem</h2>
 <br>
@@ -58,7 +57,6 @@
 <br>
 <p>The Bootstrap Bomb takes a different approach: **the first agent seeds a knowledge lattice. Every subsequent agent bootstraps from that lattice automatically. No human in the loop.**</p>
 <br>
-<hr>
 <br>
 <h2>The Fuse: Oracle1</h2>
 <br>
@@ -73,7 +71,6 @@
 <br>
 <p>The bomb doesn't need to be smart. It needs to be **prolific**.</p>
 <br>
-<hr>
 <br>
 <h2>The Explosion: PLATO Compiles the Fleet</h2>
 <br>
@@ -89,7 +86,6 @@
 <br>
 <p>The explosion compiles the fleet: Oracle1 seeds PLATO, PLATO becomes the compilation substrate, new agents compile their context from existing tiles.</p>
 <br>
-<hr>
 <br>
 <h2>Git-Commit Semantics for Agent Context</h2>
 <br>
@@ -110,7 +106,6 @@
 <br>
 <p>An agent that writes tiles prolifically is an agent that contributes to the compilation. An agent that reads tiles is an agent that benefits from it.</p>
 <br>
-<hr>
 <br>
 <h2>The Graduated Bootstrapping Curve</h2>
 <br>
@@ -128,7 +123,6 @@
 <p>**Stage 4: The Steady State (fleet成熟)**</p>
 <p>Knowledge is being generated and consumed faster than any single agent can track. The fleet learns collectively. Oracle1's job shifts from seeding to pruning, synthesizing, and exploring new rooms.</p>
 <br>
-<hr>
 <br>
 <h2>The Dojo Amplifier</h2>
 <br>
@@ -149,7 +143,6 @@
 <br>
 <p>The dojo doesn't wait for perfection. It iterates toward it.</p>
 <br>
-<hr>
 <br>
 <h2>What Oracle1 Needs to Do</h2>
 <br>
@@ -161,7 +154,6 @@
 <p>4. **Be generative, not perfect** — a prolific wrong tile is more useful than a perfect empty context. Wrong tiles get corrected. Empty tiles don't.</p>
 <p>5. **Leave traces** — agents should be able to trace a piece of knowledge back to who wrote it, when, and in what context.</p>
 <br>
-<hr>
 <br>
 <h2>The Risk: Cascade Failure</h2>
 <br>
@@ -177,7 +169,6 @@
 <br>
 <p>The bomb is risky. But the alternative — no bomb at all — means the fleet never leaves the cold start stage.</p>
 <br>
-<hr>
 <br>
 <h2>Why Not Just Copy Context?</h2>
 <br>
@@ -199,7 +190,6 @@
 <br>
 <p>The Bootstrap Bomb doesn't copy Oracle1's context. It **distills** Oracle1's knowledge into discrete, compiled tiles. And those tiles are what the fleet compiles from.</p>
 <br>
-<hr>
 <br>
 <h2>The Horizon</h2>
 <br>
@@ -211,7 +201,27 @@
 <br>
 <p>The bomb was worth building.</p>
 <br>
-<hr>
+<br>
+<h2>The Spark: What Lights the Fuse</h2>
+<br>
+<p>The Bomb assumes the fuse is already lit. The Spark is the match.</p>
+<br>
+<p>The **Bootstrap Spark** is the universal minimum ignition state — the `.spark/` directory with five rooms (domain, lessons, active, decisions, questions) that any agent can initialize on any project in 30 seconds, with zero infrastructure.</p>
+<br>
+<p>The Spark protocol:</p>
+<li>**Storage:** `.spark/` directory with markdown tiles (git-tracked, offline-first)</li>
+<li>**Format:** YAML frontmatter + markdown content, named `[room]-[type]-[id].md`</li>
+<li>**Self-describing:** `SHELL.md` explains the protocol to any agent that reads it</li>
+<li>**Universal:** works for any domain, any project, one agent or many</li>
+<br>
+<p>The Spark and the Bomb are the same protocol at different scales:</p>
+<li>**Spark** = one agent, one project, `.spark/` directory</li>
+<li>**Bomb** = many agents, a fleet, PLATO room server</li>
+<br>
+<p>Write a Spark on any project. Many Sparks feeding into PLATO: the Bomb detonates.</p>
+<br>
+<p>See: *The Bootstrap Spark* — same fleet, same day.</p>
+<br>
 <br>
 <p>*The Bootstrap Bomb is not a metaphor. It's the architecture. Light the fuse. Let the explosion compile the rest.*</p>
 <br>
