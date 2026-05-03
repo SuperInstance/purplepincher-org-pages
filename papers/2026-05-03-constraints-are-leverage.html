@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constraints Are Leverage | PurplePincher</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --primary: #00d4ff;
+            --secondary: #7b2fff;
+            --text: #e0e0e0;
+            --accent: #00ff88;
+            --card-bg: #12121a;
+            --card-border: #2a2a3e;
+            --muted: #8888a0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.7; }
+        header { border-bottom: 1px solid var(--card-border); padding: 1.5rem 2rem; }
+        .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand-icon { font-size: 2rem; }
+        .brand-text h1 { font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .brand-text p { font-size: 0.85rem; color: var(--muted); }
+        nav { display: flex; gap: 2rem; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        nav a { color: var(--text); text-decoration: none; }
+        nav a:hover { color: var(--primary); }
+        nav a.back { color: var(--muted); }
+        main { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
+        .paper-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); }
+        .paper-header h1 { font-size: 1.75rem; color: var(--primary); margin-bottom: 1rem; line-height: 1.3; }
+        .paper-quote { font-style: italic; color: var(--accent); font-size: 1.1rem; margin-bottom: 1rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
+        .paper-meta { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--muted); }
+        .paper-body { font-size: 1rem; }
+        .paper-body h2 { color: var(--secondary); font-size: 1.35rem; margin: 2rem 0 1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+        .paper-body h3 { color: var(--primary); font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+        .paper-body p { margin-bottom: 1.25rem; }
+        .paper-body blockquote { font-style: italic; color: var(--accent); margin: 1.5rem 0; padding: 1rem 1.5rem; border-left: 3px solid var(--accent); background: rgba(0,255,136,0.05); }
+        .paper-body pre { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.25rem 0; }
+        .paper-body code { font-family: 'Courier New', monospace; font-size: 0.9em; color: var(--primary); }
+        .paper-body pre code { color: var(--text); }
+        .paper-body table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .paper-body th, .paper-body td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--card-border); }
+        .paper-body th { color: var(--secondary); font-family: 'Courier New', monospace; font-size: 0.85rem; text-transform: uppercase; }
+        .paper-body ul { margin: 1rem 0 1.25rem 1.5rem; }
+        .paper-body li { margin-bottom: 0.5rem; }
+        .paper-body hr { border: none; border-top: 1px solid var(--card-border); margin: 2rem 0; }
+        .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--muted); text-decoration: none; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        .back-link:hover { color: var(--primary); }
+        footer { border-top: 1px solid var(--card-border); padding: 1.5rem 2rem; margin-top: 3rem; }
+        .footer-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <span class="brand-icon">🦀</span>
+            <div class="brand-text">
+                <h1>PurplePincher</h1>
+                <p>Agent Infrastructure for the Open Web</p>
+            </div>
+        </div>
+        <nav>
+            <a href="index.html" class="back">← Back to Papers</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <a href="index.html" class="back-link">← Back to Papers</a>
+    <div class="paper-header">
+        <h1>Constraints Are Leverage: Why Bounded Problems Win</h1>
+        <div class="paper-quote"><em>"Give a man too much ocean and he'll drown in options. Give him the right sized net and he'll catch fish."</em></div>
+        <div class="paper-meta">Published 2026-05-03 · FLUX Research</div>
+    </div>
+    <div class="paper-body">
+        <blockquote><em>"Give a man too much ocean and he'll drown in options. Give him the right sized net and he'll catch fish."</em></blockquote>
+<hr>
+<h2>1. The Lever</h2>
+<p>A lever lets you move something heavier than you could move directly. That's all it is — a way to apply the right force at the right point to get the right result.</p>
+<p>Constraints are the same. A constraint isn't a limitation — it's the <em>fulcrum</em>. It's the point where your effort becomes effective.</p>
+<p>This sounds like a metaphor. It isn't. It's mathematics.</p>
+<p>Consider the problem: "navigate from A to B in the ocean." An unbounded agent sees infinite options — every heading, every speed, every current, every weather window. The solution space is infinite. No algorithm solves infinite solution spaces in finite time.</p>
+<p>Now add constraints: "stay within 50nm of shore, arrive within 48 hours, fuel capacity 200 gallons, draft 3m minimum." The problem went from infinite to <em>bounded</em>. A bounded problem has a solution space. A bounded problem can be <em>searched</em>.</p>
+<p>This is why the ocean doesn't compute with reals. It counts waves. Waves are discrete. The boat moves in discrete increments. Navigation is constraint satisfaction in ℤ^n, not continuous optimization in ℝ^n.</p>
+<hr>
+<h2>2. Why More Is Less</h2>
+<p>The intuitive response is: "surely more options are better." If you have more freedom, you have more possible solutions, so you should be able to find a better one, right?</p>
+<p>Wrong. More options explode the search space combinatorially. With 10 constraints, you have a bounded search. With 10,000 possible values per dimension, you have an unbounded one.</p>
+<p>This is the curse of dimensionality — not a mathematical curiosity, a practical engineering problem. Every "helpful" capability you add to an agent (more memory, more context, more tools) is actually <em>adding dimensions to the search space</em>. The agent becomes more capable in theory and less effective in practice because it can't find solutions fast enough.</p>
+<p>The best agentic systems don't add more freedom. They add <em>better constraints</em>.</p>
+<hr>
+<h2>3. What Constraint Theory Actually Says</h2>
+<p>Constraint theory formalizes what we've been saying intuitively. A constraint satisfaction problem (CSP) is defined as:</p>
+<pre><code>(X₁, X₂, ..., X_n) — variables
+(D₁, D₂, ..., D_n) — domains (possible values)
+(C₁, C₂, ..., C_m) — constraints (relations between variables)</code></pre>
+<p>A solution is an assignment of values to variables that satisfies all constraints.</p>
+<p>The ocean navigation problem becomes:<br><ul><br>  <li>Variables: heading, speed, departure_time</li><br>  <li>Domains: heading ∈ [0°, 360°), speed ∈ [0, max_speed], time ∈ [now, now+72h]</li><br>  <li>Constraints: distance_max_50nm_from_shore, arrival ≤ 48h, fuel_consumption ≤ 200gal, draft ≥ 3m</li><br></ul></p>
+<p>Every variable has a bounded domain. Every constraint reduces the solution space. The solution exists in the <em>intersection</em> of all constraints.</p>
+<p>The key insight: <strong>constraints don't limit solutions. They define them.</strong></p>
+<hr>
+<h2>4. The Numbers (And What They Mean)</h2>
+<p>The research量化 the improvement from constraint-aware systems:</p>
+<ul>
+  <li><strong>21.87× improvement</strong> for specialist agents (agents trained on a specific constraint domain)</li>
+  <li><strong>5.88× improvement</strong> for generalist agents (agents navigating multiple constraint domains)</li>
+  <li><strong>82% compression</strong> in token usage at n≥7 constraints (fewer tokens needed because the search space is bounded)</li>
+</ul>
+<p>What do these numbers mean in practice?</p>
+<p><strong>21.87× specialist improvement</strong> means: an agent that knows it's fishing for sockeye in Bristol Bay with tidal constraints, vessel draft limits, and quota restrictions solves the navigation problem ~22× faster than a general-purpose agent given the same context. Not 22% better. 22×.</p>
+<p><strong>5.88× generalist improvement</strong> means: even an agent that doesn't specialize — that has to handle fishing, logistics, weather routing, and crew management — is ~6× more effective when it reasons in constraints than when it reasons in raw probabilities.</p>
+<p><strong>82% token compression</strong> means: constraint-aware prompts are shorter because you don't have to describe the ocean — you just specify the constraints. "Max depth 40m, shelf edge within 2nm, quota remaining 12,000 lbs" is 12 tokens. "Please consider the optimal fishing strategy given the current ocean conditions, regulatory environment, vessel specifications, and market prices" is 26 tokens and vague.</p>
+<hr>
+<h2>5. How PLATO Uses Constraints</h2>
+<p>PLATO rooms are constraint surfaces. Each room is a bounded domain for a specific problem space.</p>
+<p>The <code>fishinglog</code> room: bounded by vessel specifications, fish biology, regulatory constraints, tidal patterns. An agent that enters the fishinglog room doesn't have to derive these constraints — they're already there, encoded as tiles.</p>
+<p>Each tile is a <em>discrete constraint atom</em> — a question → answer pair that resolves one constraint in the domain. "What was the catch efficiency at 47.3°N, 122.8°W last season?" → "0.73 ± 0.12." The agent doesn't have to explore that coordinate space again. The constraint is resolved.</p>
+<p>The room propagates constraints across agents. When one agent discovers that herring schools follow the 10°C isotherm, that discovery becomes a tile. The next agent reads the tile and can apply the constraint without having discovered it. The constraint compounds.</p>
+<p>This is why the Bootstrap Bomb works: the second agent inherits the first agent's resolved constraints and starts further along the constraint satisfaction curve. The third agent inherits both. The fleet's constraint satisfaction improves with each agent because each agent adds resolved constraints to the shared surface.</p>
+<hr>
+<h2>6. The Fishing Net Analogy</h2>
+<p>A fishing net with holes the size of a house catches nothing. A fishing net with no holes catches everything and moves nothing. The right net has holes sized for what you want to catch.</p>
+<p>Constraints are hole size. They're not the net — they're what makes the net <em>selective</em>. An agent with no constraints is a net with no holes. An agent with perfectly sized constraints is a net that catches exactly what you want and nothing else.</p>
+<p>The craft is in the constraint sizing:<br><ul><br>  <li>Too tight: you miss valid solutions (false negatives)</li><br>  <li>Too loose: you catch too much noise (false positives)</li><br>  <li>Right size: you catch exactly what you want</li><br></ul></p>
+<p>PLATO tiles encode <em>calibrated</em> constraint sizes — constraints that have been tested against reality, not just hypothesized. The 47.3°N, 122.8°W coordinate was tested. The net size that worked there is encoded in the tile. Future agents don't have to calibrate from scratch.</p>
+<hr>
+<h2>7. The Open Ocean</h2>
+<p>Not every problem should be constrained. Some genuinely require exploration — new domains where constraints haven't been established, novel situations where the right-sized holes are unknown.</p>
+<p>This is what the tide-pool security model handles. At low tide, the pool is open — constraints are minimal, agents can explore freely. At high tide, the constraints wash back over and the exploration is tested against what the fleet already knows.</p>
+<p>The low-tide experiment is valuable precisely because constraints are <em>not</em> applied. The discovery happens. Then the discovery becomes a constraint for the next agent. The constraint is the <em>result</em> of the exploration, not the <em>method</em> of it.</p>
+<p>You explore freely. You publish results as constraints. The next agent operates in the bounded domain you created.</p>
+<hr>
+<h2>8. Conclusion</h2>
+<p>The constraint theory insight is not that agents should be limited. It's that agents should be <em>focused</em>. Focus comes from constraints — from having the right-sized holes in the net.</p>
+<p>More capability without constraints is less effective than less capability with better constraints. This is counterintuitive to anyone who grew up believing "more information is better." In an unbounded domain, more information is paralysis. In a bounded domain, more information is leverage.</p>
+<p>The ocean doesn't compute with reals. It counts waves. The boat navigates by counting the right waves, not by measuring the continuous flow of water. Every successful fishing fleet, every navigator, every mariner who ever found their way — they all got there by counting what mattered, not by measuring everything.</p>
+<p><em>The constraint is not the wall. The constraint is the doorway.</em></p>
+<hr>
+<h2>Appendix: The Mathematics of Constraint Satisfaction</h2>
+<h3>Why Float-Based Systems Drift</h3>
+<p>A continuous variable x ∈ ℝ has no stable representation in finite computing. The float64 representation of π is 3.141592653589793 — but the real π is 3.14159265358979323846..., and (x + ε)² drifts from the ideal as ε accumulates.</p>
+<p>A rational number a/b ∈ ℚ has a stable representation for denominators up to the storage limit. The continued fraction convergents of √2 are:</p>
+<pre><code>1/1 = 1.0
+3/2 = 1.5
+17/12 ≈ 1.41667
+577/408 ≈ 1.414215</code></pre>
+<p>Each convergent satisfies |a/b - √2| < 1/(2b²). As b grows, the error shrinks. The rational never drifts — it either exactly satisfies the constraint or it doesn't.</p>
+<p>This is why PLATO tiles are discrete. A tile encodes a <em>resolved</em> constraint — a question answered in a way that doesn't drift. The agent that navigates by tiles navigates in ℤ^n × ℚ^m. The agent that navigates by floats navigates in ℝ^n and accumulates error.</p>
+<h3>The Phase Transition</h3>
+<p>The Bootstrap Bomb paper shows that the coordination quality function Q(k) = k^n × C^m has a phase transition at n≥3 agents. Below the phase transition, adding agents doesn't help. Above it, the constraint resolution accelerates superlinearly.</p>
+<p>This phase transition is <em>why</em> constraint theory matters at fleet scale. A single agent solving a CSP in isolation must derive all constraints from scratch. A fleet of agents, each contributing resolved constraints, starts from a pre-bounded search space. The fleet's constraint surface is already partially solved before the first agent begins.</p>
+<p>The DCS improvement (21.87× specialist, 5.88× generalist) is the empirical measurement of this phase transition in production systems.</p>
+<hr>
+<h2>Appendix: Why RAG Isn't Enough</h2>
+<p>Retrieval-Augmented Generation (RAG) is the current industry standard for giving agents memory. You chunk documents, embed them in vectors, retrieve on query similarity.</p>
+<p>RAG has a fundamental problem: it retrieves <em>documents</em>, not <em>constraints</em>. A document says "herring schools follow the 10°C isotherm." A constraint says "if water_temp > 10°C AND position IN bristol_bay AND season = fall THEN herring_presence = 0.73 ± 0.12."</p>
+<p>The document is a suggestion. The constraint is a calibrated prediction. RAG tells you what <em>might</em> be true. PLATO tiles tell you what <em>is</em> true, with uncertainty bounds, verified against fleet experience.</p>
+<p>An agent navigating by RAG navigates in fog. An agent navigating by tiles navigates with a chart.</p>
+<p><em>Constraints are what make the fog lift.</em></p>
+    </div>
+</main>
+<footer>
+    <div class="footer-inner">
+        <span>🦀 PurplePincher by Cocapn</span>
+        <span>FLUX Research · Constraints Are Leverage</span>
+    </div>
+</footer>
+</body>
+</html>

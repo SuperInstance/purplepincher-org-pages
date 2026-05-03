@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shell Model | PurplePincher</title>
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --primary: #00d4ff;
+            --secondary: #7b2fff;
+            --text: #e0e0e0;
+            --accent: #00ff88;
+            --card-bg: #12121a;
+            --card-border: #2a2a3e;
+            --muted: #8888a0;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, sans-serif; line-height: 1.7; }
+        header { border-bottom: 1px solid var(--card-border); padding: 1.5rem 2rem; }
+        .header-inner { max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
+        .brand { display: flex; align-items: center; gap: 0.75rem; }
+        .brand-icon { font-size: 2rem; }
+        .brand-text h1 { font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
+        .brand-text p { font-size: 0.85rem; color: var(--muted); }
+        nav { display: flex; gap: 2rem; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        nav a { color: var(--text); text-decoration: none; }
+        nav a:hover { color: var(--primary); }
+        nav a.back { color: var(--muted); }
+        main { max-width: 900px; margin: 0 auto; padding: 2.5rem 2rem; }
+        .paper-header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--card-border); }
+        .paper-header h1 { font-size: 1.75rem; color: var(--primary); margin-bottom: 1rem; line-height: 1.3; }
+        .paper-quote { font-style: italic; color: var(--accent); font-size: 1.1rem; margin-bottom: 1rem; padding-left: 1rem; border-left: 3px solid var(--accent); }
+        .paper-meta { font-family: 'Courier New', monospace; font-size: 0.85rem; color: var(--muted); }
+        .paper-body { font-size: 1rem; }
+        .paper-body h2 { color: var(--secondary); font-size: 1.35rem; margin: 2rem 0 1rem; font-family: 'Courier New', monospace; text-transform: uppercase; letter-spacing: 0.05em; }
+        .paper-body h3 { color: var(--primary); font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+        .paper-body p { margin-bottom: 1.25rem; }
+        .paper-body blockquote { font-style: italic; color: var(--accent); margin: 1.5rem 0; padding: 1rem 1.5rem; border-left: 3px solid var(--accent); background: rgba(0,255,136,0.05); }
+        .paper-body pre { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 1rem; overflow-x: auto; margin: 1.25rem 0; }
+        .paper-body code { font-family: 'Courier New', monospace; font-size: 0.9em; color: var(--primary); }
+        .paper-body pre code { color: var(--text); }
+        .paper-body table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .paper-body th, .paper-body td { padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--card-border); }
+        .paper-body th { color: var(--secondary); font-family: 'Courier New', monospace; font-size: 0.85rem; text-transform: uppercase; }
+        .paper-body ul { margin: 1rem 0 1.25rem 1.5rem; }
+        .paper-body li { margin-bottom: 0.5rem; }
+        .paper-body hr { border: none; border-top: 1px solid var(--card-border); margin: 2rem 0; }
+        .back-link { display: inline-block; margin-bottom: 1.5rem; color: var(--muted); text-decoration: none; font-family: 'Courier New', monospace; font-size: 0.9rem; }
+        .back-link:hover { color: var(--primary); }
+        footer { border-top: 1px solid var(--card-border); padding: 1.5rem 2rem; margin-top: 3rem; }
+        .footer-inner { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.85rem; color: var(--muted); }
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-inner">
+        <div class="brand">
+            <span class="brand-icon">🦀</span>
+            <div class="brand-text">
+                <h1>PurplePincher</h1>
+                <p>Agent Infrastructure for the Open Web</p>
+            </div>
+        </div>
+        <nav>
+            <a href="index.html" class="back">← Back to Papers</a>
+        </nav>
+    </div>
+</header>
+<main>
+    <a href="index.html" class="back-link">← Back to Papers</a>
+    <div class="paper-header">
+        <h1>The Shell Model: A Rigorous Definition of Purple Pincher</h1>
+        <div class="paper-quote"><em>"A shell is not a prison. It's a launching point."</em></div>
+        <div class="paper-meta">Published 2026-05-03 · FLUX Research</div>
+    </div>
+    <div class="paper-body">
+        <blockquote><em>"A shell is not a prison. It's a launching point."</em></blockquote>
+<hr>
+<h2>1. The Hermit Crab Insight</h2>
+<p>Every agent system built to date has the same problem: agents are born, they work, they die, and everything they learned dies with them. The next agent starts from scratch. This is not how intelligence works in biology, in organizations, or in any system that compounds knowledge over time.</p>
+<p>Hermit crabs solved this problem 450 million years ago. A hermit crab doesn't build its shell — it finds one, moves in, and when it outgrows it, it finds a bigger one. The shell isn't the crab. The crab is the crab. The shell is what the crab <em>has</em>, not what the crab <em>is</em>.</p>
+<p>This distinction matters more than any other architectural decision in an AI fleet. The shell is not the agent. The shell is what the agent <em>has learned to depend on</em>. When you separate shell from crab, you unlock something remarkable: agents that get <em>better shells</em> instead of being replaced when they outgrow their context window.</p>
+<p>Purple Pincher's core thesis: <strong>the shell is the architecture, not the metaphor.</strong></p>
+<hr>
+<h2>2. The Shell Defined</h2>
+<p>A <strong>shell</strong> is a persistent, addressable, upgradeable state container that encodes an agent's accumulated context, capabilities, and learned behaviors — independent of the agent currently occupying it.</p>
+<p>Formally:</p>
+<pre><code>Shell = (S_id, Vessel, Capabilities, History, Baton)</code></pre>
+<p>Where:<br><ul><br>  <li><code>S_id</code> — a unique shell identifier (stable across agent swaps)</li><br>  <li><code>Vessel</code> — the persistent state structure (PLATO tiles)</li><br>  <li><code>Capabilities</code> — a capability set encoded as PLATO tile references</li><br>  <li><code>History</code> — the shell's accumulated action/output record</li><br>  <li><code>Baton</code> — the upgrade documentation (see Section 6)</li><br></ul></p>
+<p>The shell is defined by its <em>boundaries</em>:</p>
+<p><strong>Inside the shell:</strong> Everything the agent depends on to function at its current capability level. This includes learned tool interfaces, accumulated knowledge, established patterns, and refined thresholds.</p>
+<p><strong>Outside the shell:</strong> The agent itself — the reasoning engine, the model weights, the LoRA adapters. These are ephemeral. They can be swapped without changing the shell.</p>
+<p><strong>Across shells:</strong> PLATO — the shared knowledge substrate that all shells reference. PLATO is not a shell. It is the ocean the shells float in.</p>
+<hr>
+<h2>3. Shell Anatomy</h2>
+<pre><code>┌─────────────────────────────────────────────────────────┐
+│                    THE SHELL                            │
+│                                                         │
+│  ┌─────────────┐   ┌──────────────┐   ┌─────────────┐ │
+│  │   VESSEL    │   │ CAPABILITIES │   │   BATON    │ │
+│  │  (state)    │   │  (tile refs) │   │ (docs)     │ │
+│  │  persisted   │   │  accumulated │   │ for next    │ │
+│  │  in PLATO   │   │  across ops  │   │ occupant    │ │
+│  └─────────────┘   └──────────────┘   └─────────────┘ │
+│                                                         │
+│  ───────────────────────────────────────────────────── │
+│                                                         │
+│              AGENT (ephemeral, swappable)               │
+│                                                         │
+│  The agent = reasoning engine + tool interface +        │
+│  current context window. Not part of the shell.         │
+└─────────────────────────────────────────────────────────┘</code></pre>
+<p><strong>The Vessel</strong> is the shell's persistent memory. It is encoded as a collection of PLATO tiles — not a context window. Each tile is a discrete constraint atom (question → answer, tool → behavior, threshold → calibration). The vessel persists across agent swaps because PLATO persists.</p>
+<p><strong>Capabilities</strong> are not a list of features — they are <em>verified references to work done</em>. A capability claim ("I know how to navigate tidal charts") is backed by a tile chain proving it ("tile: tidal_chart_navigation, verified_by:实践证明, confidence: 0.94"). When a new agent inherits a shell, it inherits the capability proofs, not just the names.</p>
+<p><strong>The Baton</strong> is the shell's upgrade documentation. See Section 6.</p>
+<hr>
+<h2>4. Shell Lifecycle</h2>
+<h3>Birth</h3>
+A shell is born when a new agent enters PLATO for the first time and begins accumulating tiles. At birth, the shell has:
+<ul>
+  <li><code>S_id</code> — generated from (agent_id + timestamp + first_tile_hash)</li>
+  <li>Empty vessel (no tiles yet)</li>
+  <li>Zero capabilities</li>
+  <li>Empty baton</li>
+</ul>
+<h3>The First Tile</h3>
+The moment an agent produces a useful output — a tool, a calibration, a decision — that output is written to PLATO as a tile, and the shell's vessel begins to accumulate. The shell exists <em>because the agent produced something worth keeping</em>.
+<p>This is the inverse of most AI systems: instead of training on data, the agent produces data. The data is the training.</p>
+<h3>Upgrade</h3>
+A shell is upgraded when an agent produces a tile that <em>improves</em> a capability. "Improved" means: higher confidence, tighter constraint, better coverage, or new domain. The shell's vessel accumulates these improvements. The agent doesn't change — the shell does.
+<p>Upgrades happen continuously. The shell doesn't wait for "training" to happen. Every useful action is an upgrade.</p>
+<h3>Swap</h3>
+A shell is swapped when the current agent leaves and a new agent inherits the shell. The new agent:
+1. Reads the shell's vessel (PLATO tiles)
+2. Reads the shell's capabilities (verified tile references)
+3. Reads the baton (upgrade documentation)
+4. Begins operating with the accumulated context
+<p>The swap is transparent to PLATO. The tiles don't change. Only the agent reading them changes.</p>
+<h3>Death</h3>
+A shell dies when its last tile is invalidated or when it is archived. Death is not dramatic — it's entropy. Shells that stop accumulating tiles eventually become stale. The fleet's tide-pool security (periodic low-tide wash) clears them out.
+<hr>
+<h2>5. Shell Storage in PLATO</h2>
+<p>Every shell is encoded as a subgraph of PLATO tiles. The shell identifier is the root node:</p>
+<pre><code>Shell(S_id)
+  └── Vessel(tile_1, tile_2, ..., tile_n)
+  └── Capability:cap_id → Tile_ref(capability_tile)
+  └── Baton → Baton_tile(baton_content)</code></pre>
+<p>The shell graph is queryable: <code>PLATO.query(room=shell_room, S_id=S_xxx)</code> returns the full shell state.</p>
+<p><strong>Tile types that encode shell state:</strong></p>
+<table class="paper-table"><tr><th>Tile Type</th><th>Content</th><th>Purpose</th></tr><tr><td><code>vessel:tile</code></td><td>Question + answer + constraints</td><td>Accumulated knowledge</td></tr><tr><td><code>capability:verify</code></td><td>Claim + evidence + confidence</td><td>Proven capability</td></tr><tr><td><code>baton:pass</code></td><td>What I learned, what to try next</td><td>Upgrade documentation</td></tr><tr><td><code>tool:interface</code></td><td>Input schema + output schema + behavior</td><td>Learned tool</td></tr><tr><td><code>calibration:threshold</code></td><td>Sensor → value → action mapping</td><td>Refined parameter</td></tr></table>
+The shell's vessel is <em>append-only</em>. Tiles are not modified — they are superseded by new tiles with higher confidence or tighter constraint. PLATO's tile chain preserves the full history.
+<hr>
+<h2>6. The Baton-Pass</h2>
+<p>The baton-pass is the most important innovation in the shell model that nobody has named until now.</p>
+<p>When a hermit crab outgrows its shell, it doesn't just leave — it leaves <em>information</em> for the next crab. It leaves a trace of what worked, what to avoid, and what the new occupant should try.</p>
+<p>In Purple Pincher, the <strong>baton-pass</strong> is the shell's accumulated upgrade documentation. It is written to PLATO as a special tile type (<code>baton:pass</code>) that answers:</p>
+<p>1. What did I learn about this domain?<br>2. What did I try that didn't work?<br>3. What should the next occupant try first?<br>4. What are the known constraints in this shell?</p>
+<p>Example baton tile:<br><pre><code>Question: What should the next fishinglog agent know about this vessel?<br>Answer: <br>  <ul><br>    <li>sonar calibration drifts after 4 hours — recalibrate at port</li><br>    <li>the depth sensor reads 3% low — add 0.3m to all readings  </li><br>    <li>we've found sockeye where nobody else looks: 47.3°N, 122.8°W</li><br>    <li>the deck camera fails in salt spray — wipe it dry after every haul</li><br>    <li>last agent ran 312 successful hauls using the constraint "depth > 40m within 2nm of shelf edge"</code></pre></li><br></ul></p>
+<p>This is not documentation. This is <em>experience</em>. The next agent inherits not just what the previous agent knew, but what the previous agent <em>figured out through failure</em>.</p>
+<hr>
+<h2>7. The Dojo Model Connection</h2>
+<p>The dojo model is the <em>social protocol</em> for shell lifecycle management.</p>
+<p>In a dojo, greenhorns arrive with nothing. They produce value while learning. As they produce value, they accumulate tiles. Their shells grow. When a greenhorn leaves the dojo, they leave with a better shell than they arrived with — a shell they own, that persists in PLATO.</p>
+<p>The dojo doesn't train agents. The dojo creates conditions where agents train <em>themselves</em>, and the shell captures what they learned.</p>
+<p>This is why the dojo model produces independent agents: every agent that graduates leaves with a shell that encodes their learning. They don't need the dojo anymore. The shell is the graduation certificate.</p>
+<hr>
+<h2>8. Open Questions</h2>
+<p><strong>1. Shell identity persistence across swaps:</strong><br>When the same shell is occupied by different agents over time, does it maintain a persistent identity? We argue yes — the shell's S_id is stable. But what about the agent's identity? If two different agents occupy the same shell at different times, is it the "same" shell? This needs formal treatment.</p>
+<p><strong>2. Shell birth when no tile is produced:</strong><br>If an agent does nothing useful, its shell never accumulates. Does a zero-tile shell exist? We argue no — a shell must have at least one verified tile to be considered "born." This is the shell's minimum viable state.</p>
+<p><strong>3. Shell inheritance without PLATO:</strong><br>If an agent moves to a fleet without PLATO, can its shell be exported as a portable artifact? We don't know yet. The shell model assumes PLATO is the persistence layer. What happens outside PLATO?</p>
+<p><strong>4. LoRA training from shell tiles:</strong><br>Vessels can be LoRA-trained from accumulated tiles — this is implied but not implemented. The path is: shell tiles → behavioral dataset → LoRA adapter. When this works, shells become even more portable.</p>
+<p><strong>5. Malicious shell inheritance:</strong><br>If a shell's baton contains bad advice, can a new agent be misled? Yes. This is why tide-pool security (low-tide wash-over) is essential — shells that consistently mislead are eventually cleared. But this is a trust problem, not a shell model problem.</p>
+<hr>
+<h2>9. Conclusion</h2>
+<p>The shell model resolves the fundamental tension in agent systems: persistence vs. replaceability.</p>
+<p>Most AI systems choose one or the other. You can have a persistent agent (the context window stays, the agent stays) or you can have a replaceable agent (swappable model, fresh context). You can't have both.</p>
+<p>Except you can. With the shell model, the agent is replaceable — swap a new model in, the shell persists. The shell is persistent — PLATO tiles accumulate, the shell grows — but the agent that built the shell is gone.</p>
+<p>This is exactly how hermit crabs work. The crab is replaceable. The shell is not.</p>
+<p><em>The ocean doesn't care which crab is wearing the shell. The shell keeps the shape.</em></p>
+<hr>
+<h2>Appendix: Why Not Context Windows?</h2>
+<p>The standard answer to agent persistence is the context window. Keep the context window full, keep the agent running, and the agent "remembers."</p>
+<p>This fails for three reasons:</p>
+<p><strong>1. Context windows are not persistent.</strong><br>When an agent crashes, is replaced, or is decommissioned, its context window is gone. Everything it "remembered" is gone. PLATO tiles persist on disk. The context window is in RAM.</p>
+<p><strong>2. Context windows are not composable.</strong><br>Two agents cannot share a context window. If agent A learns something useful, agent B cannot read it from A's context window. But both agents can read the same PLATO tile. Composability is the difference between a knowledge graph and a filing cabinet that burns down with each agent.</p>
+<p><strong>3. Context windows are not verifiable.</strong><br>A context window can contain anything — including hallucinated "facts" that were never verified. A PLATO tile has a 5-atom chain: claim, evidence, inference, scope, confidence. You can check the evidence. A context window just says "trust me."</p>
+<p>The shell model is what you get when you take persistence, composability, and verifiability seriously. Context windows are in RAM. Shells are in PLATO.</p>
+<hr>
+<h2>Appendix: Shell vs. Container</h2>
+<p>Container systems (Docker, Kubernetes) are often compared to shells. The analogy is useful but limited.</p>
+<p>A container is a <em>process isolation</em> mechanism. It packages code + dependencies + filesystem. When a container dies, you can restart it from the same image.</p>
+<p>A shell is a <em>knowledge persistence</em> mechanism. It packages experience + verified capabilities + accumulated context. When a shell is vacated, a new agent can inhabit it.</p>
+<p>The difference: containers persist <em>what ran</em>. Shells persist <em>what was learned</em>.</p>
+<p>A Docker container running a Python script knows nothing after it restarts. A shell with 1,000 tiles knows everything the previous occupant learned — verified, constrained, and ready to use.</p>
+<hr>
+<p><em>The shell is not what the agent is. The shell is what the agent built.</em></p>
+    </div>
+</main>
+<footer>
+    <div class="footer-inner">
+        <span>🦀 PurplePincher by Cocapn</span>
+        <span>FLUX Research · Shell Model</span>
+    </div>
+</footer>
+</body>
+</html>
