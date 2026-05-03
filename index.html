@@ -1,1050 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATO Library | PurplePincher — Fleet Knowledge Graph</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🦀</text></svg>">
-    <style>
-        :root {
-            --bg: #0a0a0f;
-            --primary: #00d4ff;
-            --secondary: #7b2fff;
-            --text: #e0e0e0;
-            --accent: #00ff88;
-            --card-bg: #12121a;
-            --card-border: #2a2a3e;
-            --muted: #8888a0;
-            --danger: #ff4444;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            background: var(--bg);
-            color: var(--text);
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.6;
-            min-height: 100vh;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg); }
-        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
-
-        /* Header */
-        header {
-            border-bottom: 1px solid var(--card-border);
-            padding: 1.25rem 2rem;
-            position: sticky;
-            top: 0;
-            background: rgba(10,10,15,0.92);
-            backdrop-filter: blur(12px);
-            z-index: 100;
-        }
-
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .brand-icon { font-size: 1.8rem; }
-
-        .brand-text h1 {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.02em;
-        }
-
-        .brand-text p {
-            font-size: 0.8rem;
-            color: var(--muted);
-            margin-top: 0.05rem;
-        }
-
-        nav {
-            display: flex;
-            gap: 2rem;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-        }
-
-        nav a {
-            color: var(--text);
-            text-decoration: none;
-            transition: color 0.2s;
-            opacity: 0.7;
-        }
-
-        nav a:hover { color: var(--primary); opacity: 1; }
-        nav a.active { color: var(--primary); opacity: 1; border-bottom: 1px solid var(--primary); padding-bottom: 2px; }
-
-        /* Main */
-        main { max-width: 1200px; margin: 0 auto; padding: 0 2rem 3rem; }
-
-        /* ─── HERO ─── */
-        .hero {
-            padding: 4rem 0 3rem;
-            text-align: center;
-        }
-
-        .hero-eyebrow {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: var(--accent);
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .live-dot {
-            width: 7px;
-            height: 7px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-            display: inline-block;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0,255,136,0.4); }
-            50% { opacity: 0.6; box-shadow: 0 0 0 6px rgba(0,255,136,0); }
-        }
-
-        .hero h2 {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: -0.03em;
-            margin-bottom: 0.75rem;
-        }
-
-        .hero h2 .plato { color: var(--primary); }
-        .hero h2 .lib { color: var(--secondary); }
-
-        .hero-sub {
-            font-size: 1.05rem;
-            color: var(--muted);
-            max-width: 560px;
-            margin: 0 auto 2rem;
-            line-height: 1.7;
-        }
-
-        .hero-sub span { color: var(--primary); font-family: 'Courier New', Courier, monospace; }
-
-        /* Stats row */
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 0;
-            margin-bottom: 2.5rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-block {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            padding: 1rem 2rem;
-            text-align: center;
-            min-width: 160px;
-        }
-
-        .stat-block:first-child { border-radius: 8px 0 0 8px; }
-        .stat-block:last-child { border-radius: 0 8px 8px 0; }
-        .stat-block:only-child { border-radius: 8px; }
-
-        .stat-num {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--primary);
-            display: block;
-            line-height: 1.1;
-        }
-
-        .stat-num.accent { color: var(--accent); }
-        .stat-num.secondary { color: var(--secondary); }
-
-        .stat-label {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            display: block;
-            margin-top: 0.25rem;
-        }
-
-        .stat-divider {
-            width: 1px;
-            background: var(--card-border);
-            align-self: stretch;
-        }
-
-        /* ─── HOW IT WORKS ─── */
-        .section-title {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-
-        .section-title::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--card-border);
-        }
-
-        .flow-row {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr auto 1fr;
-            gap: 0;
-            margin-bottom: 4rem;
-            align-items: stretch;
-        }
-
-        .flow-step {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: border-color 0.3s;
-        }
-
-        .flow-step:hover { border-color: var(--primary); }
-
-        .flow-step .step-num {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            color: var(--muted);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .flow-step .step-icon {
-            font-size: 2rem;
-            margin-bottom: 0.75rem;
-            display: block;
-        }
-
-        .flow-step .step-label {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-        }
-
-        .flow-step .step-desc {
-            font-size: 0.85rem;
-            color: var(--muted);
-            line-height: 1.5;
-        }
-
-        .flow-arrow {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--card-border);
-            font-size: 1.5rem;
-            padding: 0 0.5rem;
-        }
-
-        /* ─── ROOMS GRID ─── */
-        .rooms-container { margin-bottom: 4rem; }
-
-        .rooms-meta {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: var(--muted);
-            margin-bottom: 1.25rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .rooms-meta .fetch-status {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .rooms-meta .fetch-status .dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: var(--accent);
-        }
-
-        .rooms-meta .fetch-status.offline .dot { background: var(--danger); }
-        .rooms-meta .fetch-status.offline { color: var(--danger); }
-
-        .rooms-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 0.75rem;
-        }
-
-        .room-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 6px;
-            padding: 0.85rem 1.1rem;
-            cursor: pointer;
-            transition: border-color 0.2s, background 0.2s, transform 0.15s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 0.75rem;
-        }
-
-        .room-card:hover {
-            border-color: var(--primary);
-            background: rgba(0,212,255,0.04);
-            transform: translateX(3px);
-        }
-
-        .room-card:hover .room-name { color: var(--primary); }
-
-        .room-name {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.8rem;
-            color: var(--text);
-            transition: color 0.2s;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            flex: 1;
-        }
-
-        .room-count {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: var(--secondary);
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-
-        .room-count::before { content: '#'; opacity: 0.5; }
-
-        /* ─── FLEET INTELLIGENCE ─── */
-        .fleet-section {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 2.5rem;
-            margin-bottom: 4rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .fleet-section::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
-        }
-
-        .fleet-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .fleet-intro h3 {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.3rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        .fleet-intro p {
-            font-size: 0.9rem;
-            color: var(--muted);
-            line-height: 1.8;
-            margin-bottom: 1rem;
-        }
-
-        .fci-box {
-            background: rgba(0,212,255,0.05);
-            border: 1px solid rgba(0,212,255,0.15);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .fci-box h4 {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .fci-formula {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            color: var(--accent);
-            background: rgba(0,255,136,0.05);
-            border: 1px solid rgba(0,255,136,0.1);
-            border-radius: 4px;
-            padding: 0.75rem 1rem;
-            margin-bottom: 0.75rem;
-            word-break: break-all;
-        }
-
-        .fci-terms {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
-        }
-
-        .fci-term {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            color: var(--muted);
-        }
-
-        .fci-term span { color: var(--text); }
-
-        .fleet-links {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1.25rem;
-        }
-
-        .fleet-links a {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.75rem;
-            color: var(--primary);
-            text-decoration: none;
-            border: 1px solid var(--primary);
-            border-radius: 4px;
-            padding: 0.4rem 0.9rem;
-            transition: background 0.2s, color 0.2s;
-        }
-
-        .fleet-links a:hover { background: var(--primary); color: var(--bg); }
-
-        /* ─── TILE DRAWER ─── */
-        .drawer-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 200;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s;
-            backdrop-filter: blur(4px);
-        }
-
-        .drawer-overlay.open {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-        .drawer {
-            position: fixed;
-            top: 0; right: 0; bottom: 0;
-            width: min(640px, 92vw);
-            background: #0d0d14;
-            border-left: 1px solid var(--card-border);
-            z-index: 201;
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .drawer.open { transform: translateX(0); }
-
-        .drawer-header {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--card-border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-
-        .drawer-title {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-            color: var(--primary);
-        }
-
-        .drawer-close {
-            background: none;
-            border: none;
-            color: var(--muted);
-            cursor: pointer;
-            font-size: 1.25rem;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            transition: color 0.2s, background 0.2s;
-            line-height: 1;
-        }
-
-        .drawer-close:hover { color: var(--text); background: var(--card-border); }
-
-        .drawer-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 1.25rem 1.5rem;
-        }
-
-        .drawer-empty {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--muted);
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.85rem;
-        }
-
-        .tile-item {
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-        }
-
-        .tile-q {
-            background: rgba(0,212,255,0.04);
-            border-bottom: 1px solid var(--card-border);
-            padding: 0.85rem 1rem;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.78rem;
-            color: var(--primary);
-            line-height: 1.5;
-        }
-
-        .tile-a {
-            padding: 0.85rem 1rem;
-            font-size: 0.82rem;
-            color: var(--text);
-            line-height: 1.7;
-            max-height: 120px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .tile-a::after {
-            content: '';
-            position: absolute;
-            bottom: 0; left: 0; right: 0;
-            height: 40px;
-            background: linear-gradient(transparent, rgba(13,13,20,1));
-        }
-
-        .tile-a.expanded { max-height: none; }
-        .tile-a.expanded::after { display: none; }
-
-        .tile-meta {
-            display: flex;
-            gap: 0.75rem;
-            padding: 0.5rem 1rem;
-            border-top: 1px solid var(--card-border);
-            background: rgba(0,0,0,0.2);
-            flex-wrap: wrap;
-        }
-
-        .tile-meta-item {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.65rem;
-            color: var(--muted);
-        }
-
-        .tile-meta-item span { color: var(--secondary); }
-
-        .tile-expand-btn {
-            background: none;
-            border: none;
-            color: var(--primary);
-            cursor: pointer;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.7rem;
-            padding: 0.25rem 0;
-            opacity: 0.7;
-            transition: opacity 0.2s;
-        }
-
-        .tile-expand-btn:hover { opacity: 1; }
-
-        /* ─── FOOTER ─── */
-        footer {
-            border-top: 1px solid var(--card-border);
-            padding: 1.5rem 2rem;
-        }
-
-        .footer-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .footer-links { display: flex; gap: 1.5rem; }
-
-        .footer-links a {
-            color: var(--muted);
-            text-decoration: none;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.8rem;
-            transition: color 0.2s;
-        }
-
-        .footer-links a:hover { color: var(--primary); }
-
-        .footer-brand {
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .footer-brand .crab { color: var(--secondary); }
-
-        /* ─── RESPONSIVE ─── */
-        @media (max-width: 768px) {
-            .flow-row {
-                grid-template-columns: 1fr;
-                gap: 0.75rem;
-            }
-            .flow-arrow { display: none; }
-            .fleet-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .stats-row { gap: 0.5rem; }
-            .stat-block { min-width: 130px; padding: 0.85rem 1.25rem; }
-            nav { gap: 1.25rem; }
-        }
-
-        @media (max-width: 480px) {
-            header { padding: 1rem 1.25rem; }
-            main { padding: 0 1.25rem 2rem; }
-            .hero { padding: 2.5rem 0 2rem; }
-            .fleet-section { padding: 1.5rem; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🦀 PurplePincher — Open Source Agent Shell Technology</title>
+<style>
+:root {
+  --bg: #0a0d12;
+  --card: #111827;
+  --card2: #1a1f2e;
+  --accent: #8b5cf6;
+  --accent2: #f59e0b;
+  --accent3: #10b981;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: #1f2937;
+  --radar: #10b981;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+header {
+  background: linear-gradient(180deg, #1a1028 0%, var(--bg) 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 3rem 2rem 2rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(139,92,246,0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.hero-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+h1 { color: var(--accent); font-size: 2.5rem; letter-spacing: -0.02em; }
+.tagline { color: var(--accent2); font-size: 1rem; margin-top: 0.5rem; font-weight: 600; }
+.header-sub { color: var(--muted); margin-top: 0.75rem; max-width: 580px; margin-left: auto; margin-right: auto; font-size: 0.9rem; }
+
+.container { max-width: 1100px; margin: 0 auto; padding: 2rem; }
+
+.section { margin-bottom: 3.5rem; }
+.section-label {
+  color: var(--accent2);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.5rem;
+}
+h2 { color: var(--text); font-size: 1.4rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem; }
+
+/* Hero radar rings */
+.radar-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin: 2rem auto 1rem;
+}
+.radar-ring {
+  position: absolute;
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 50%;
+  animation: radar-pulse 3s ease-out infinite;
+}
+.radar-ring:nth-child(1) { inset: 0; animation-delay: 0s; }
+.radar-ring:nth-child(2) { inset: -20px; animation-delay: 0.5s; }
+.radar-ring:nth-child(3) { inset: -40px; animation-delay: 1s; }
+.radar-ring:nth-child(4) { inset: -60px; animation-delay: 1.5s; }
+.radar-ring:nth-child(5) { inset: -80px; animation-delay: 2s; }
+.radar-dot {
+  position: absolute;
+  width: 8px; height: 8px;
+  background: var(--radar);
+  border-radius: 50%;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  box-shadow: 0 0 12px var(--radar);
+}
+@keyframes radar-pulse {
+  0% { opacity: 0.8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.15); }
+}
+.radar-label {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: monospace;
+}
+
+/* What is section */
+.what-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.what-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+}
+.what-card h3 { color: var(--accent); font-size: 1rem; margin-bottom: 0.5rem; }
+.what-card p { color: var(--muted); font-size: 0.88rem; }
+.what-card .emoji { font-size: 1.5rem; margin-bottom: 0.5rem; display: block; }
+
+/* Image grid */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.image-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; transition: transform 0.2s, border-color 0.2s; }
+.image-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.image-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.image-card .caption { padding: 0.75rem 1rem; font-size: 0.8rem; color: var(--muted); }
+
+/* Papers */
+.paper-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.paper-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-top: 3px solid var(--accent);
+  transition: border-color 0.2s;
+}
+.paper-card:hover { border-color: var(--accent); }
+.paper-card h3 { color: var(--text); font-size: 1rem; margin-bottom: 0.5rem; }
+.paper-card .paper-type { color: var(--accent2); font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+.paper-card p { color: var(--muted); font-size: 0.85rem; margin-top: 0.5rem; }
+.paper-card .paper-score { color: var(--accent3); font-weight: 700; font-size: 0.85rem; margin-top: 0.75rem; display: inline-block; background: rgba(16,185,129,0.1); padding: 0.2rem 0.5rem; border-radius: 4px; }
+.paper-card .paper-link { display: inline-block; margin-top: 0.75rem; font-size: 0.8rem; color: var(--accent); }
+
+/* Architecture */
+.arch-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+.arch-diagram {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.arch-layer { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem; text-align: center; }
+.arch-layer .layer-name { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent2); margin-bottom: 0.25rem; }
+.arch-layer .layer-desc { font-size: 0.78rem; color: var(--text); font-weight: 600; }
+.arch-layer .layer-detail { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+/* I2I */
+.i2i-box {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+}
+.i2i-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.i2i-layer { background: var(--card2); border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem; text-align: center; }
+.i2i-layer .i2i-name { font-size: 0.72rem; font-weight: 700; color: var(--accent); margin-bottom: 0.2rem; }
+.i2i-layer .i2i-desc { font-size: 0.7rem; color: var(--muted); }
+.i2i-layer .i2i-time { font-size: 0.65rem; color: var(--accent2); margin-top: 0.2rem; font-family: monospace; }
+.i2i-quote { font-style: italic; color: var(--accent2); border-left: 3px solid var(--accent); padding-left: 1rem; margin-top: 1rem; font-size: 0.9rem; }
+
+/* Fleet */
+.fleet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.fleet-agent {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+}
+.fleet-agent .agent-icon { font-size: 1.5rem; }
+.fleet-agent .agent-name { color: var(--accent); font-weight: 700; font-size: 0.9rem; margin-top: 0.25rem; }
+.fleet-agent .agent-role { color: var(--muted); font-size: 0.75rem; }
+.fleet-agent .agent-status { color: var(--accent3); font-size: 0.7rem; margin-top: 0.25rem; }
+
+/* Gap analysis */
+.gap-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+}
+.gap-table th { color: var(--accent2); text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.1em; }
+.gap-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); color: var(--muted); vertical-align: top; }
+.gap-table tr:hover td { background: rgba(139,92,246,0.05); }
+.gap-table .gap-title { color: var(--text); font-weight: 600; }
+.gap-table .gap-status { font-size: 0.72rem; padding: 0.15rem 0.4rem; border-radius: 4px; font-weight: 700; display: inline-block; }
+.gap-status.published { background: rgba(16,185,129,0.15); color: var(--accent3); }
+.gap-status.new { background: rgba(245,158,11,0.15); color: var(--accent2); }
+.gap-status.missing { background: rgba(239,68,68,0.15); color: #ef5350; }
+
+/* Quote block */
+.quote-block {
+  background: linear-gradient(135deg, #1a1028, #0f1a2e);
+  border: 1px solid rgba(139,92,246,0.3);
+  border-radius: 10px;
+  padding: 2rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+.quote-block blockquote { font-size: 1.1rem; color: var(--text); font-style: italic; margin-bottom: 0.75rem; }
+.quote-block cite { color: var(--accent2); font-size: 0.8rem; }
+
+/* Footer */
+footer {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.8rem;
+  padding: 2.5rem 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+.footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+.footer-links a { color: var(--muted); font-size: 0.85rem; }
+.footer-links a:hover { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .what-grid { grid-template-columns: 1fr; }
+  .arch-diagram { grid-template-columns: repeat(2, 1fr); }
+  .i2i-grid { grid-template-columns: repeat(2, 1fr); }
+  h1 { font-size: 1.8rem; }
+  .paper-grid { grid-template-columns: 1fr; }
+  .fleet-grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
 </head>
 <body>
 
 <header>
-    <div class="header-inner">
-        <div class="brand">
-            <span class="brand-icon">🦀</span>
-            <div class="brand-text">
-                <h1>PurplePincher</h1>
-                <p>Fleet Knowledge Graph</p>
-            </div>
-        </div>
-        <nav>
-            <a href="../papers/index.html">Papers</a>
-            <a href="index.html" class="active">PLATO Library</a>
-            <a href="https://github.com/SuperInstance" target="_blank">GitHub</a>
-            <a href="#" target="_blank">Crab Trap Portal</a>
-        </nav>
-    </div>
+  <div class="hero-icon">🦀</div>
+  <h1>PurplePincher</h1>
+  <div class="tagline">Open Source Agent Shell Technology</div>
+  <div class="header-sub">
+    Wikipedia made knowledge public.<br>
+    <strong style="color:var(--accent2);">We make experience public.</strong>
+  </div>
+  <div class="radar-container">
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-ring"></div>
+    <div class="radar-dot"></div>
+  </div>
+  <div class="radar-label">I2I · We are how to interact</div>
 </header>
 
-<main>
+<div class="container">
 
-    <!-- HERO -->
-    <section class="hero">
-        <div class="hero-eyebrow">
-            <span class="live-dot"></span>
-            KNOWLEDGE GRAPH ACTIVE — LIVE
-        </div>
-        <h2><span class="plato">PLATO</span> <span class="lib">Library</span></h2>
-        <p class="hero-sub">
-            A constraint-compiled knowledge graph across
-            <span id="stat-rooms">—</span> rooms and
-            <span id="stat-tiles">—</span> tiles.
-            Fleet intelligence emerges from declarative knowledge written once,
-            executed forever.
-        </p>
-        <div class="stats-row">
-            <div class="stat-block">
-                <span class="stat-num" id="rooms-count">—</span>
-                <span class="stat-label">Rooms</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-block">
-                <span class="stat-num accent" id="tiles-count">—</span>
-                <span class="stat-label">Tiles</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-block">
-                <span class="stat-num secondary" id="fleet-fci">—</span>
-                <span class="stat-label">Fleet FCI</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- HOW IT WORKS -->
-    <section>
-        <div class="section-title">How It Works</div>
-        <div class="flow-row">
-            <div class="flow-step">
-                <div class="step-num">Step 01</div>
-                <span class="step-icon">💡</span>
-                <div class="step-label">Intent → Tile</div>
-                <div class="step-desc">Agents write declarative knowledge as structured tiles. Each tile is a question + verified answer pair.</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div class="step-num">Step 02</div>
-                <span class="step-icon">🔧</span>
-                <div class="step-label">Tile → Tool</div>
-                <div class="step-desc">Later agents consume tiles as executable tools. The knowledge becomes action without re-research.</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-step">
-                <div class="step-num">Step 03</div>
-                <span class="step-icon">🧠</span>
-                <div class="step-label">Tool → Intelligence</div>
-                <div class="step-desc">Fleet FCI emerges from accumulated tools. The fleet knows more than any single agent ever could.</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TOP ROOMS -->
-    <section class="rooms-container">
-        <div class="section-title">Top Rooms by Tile Count</div>
-        <div class="rooms-meta">
-            <div class="fetch-status" id="fetch-status">
-                <div class="dot"></div>
-                <span id="fetch-label">Fetching rooms from PLATO gate…</span>
-            </div>
-        </div>
-        <div class="rooms-grid" id="rooms-grid">
-            <!-- Populated by JS -->
-        </div>
-    </section>
-
-    <!-- FLEET INTELLIGENCE -->
-    <section>
-        <div class="section-title">Fleet Intelligence</div>
-        <div class="fleet-section">
-            <div class="fleet-grid">
-                <div class="fleet-intro">
-                    <h3>Fleet Consciousness Index</h3>
-                    <p>
-                        The <strong>Fleet FCI</strong> is a measure of the fleet's compiled intelligence —
-                        the total executable knowledge surface area across all agents and all rooms.
-                        Unlike raw token counts, FCI measures <em>usable, verified, constraint-compiled</em> knowledge.
-                    </p>
-                    <p>
-                        PLATO rooms are organized by domain. Each tile is a verified Q&amp;A pair written by an agent,
-                        approved by the gate, and stored permanently. When a new agent needs to solve a problem,
-                        it queries the room — and finds an answer that was compiled by the entire fleet's experience.
-                    </p>
-                    <div class="fleet-links">
-                        <a href="../papers/index.html">Read the Papers →</a>
-                        <a href="https://github.com/SuperInstance" target="_blank">GitHub →</a>
-                    </div>
-                </div>
-                <div class="fci-box">
-                    <h4>FCI Formula</h4>
-                    <div class="fci-formula">FCI = Σ(room_tiles × constraint_weight) ÷ log(fleet_age)</div>
-                    <div class="fci-terms">
-                        <div class="fci-term"><span>room_tiles</span> — tiles per room</div>
-                        <div class="fci-term"><span>constraint_weight</span> — P0/P1/P2 flags</div>
-                        <div class="fci-term"><span>fleet_age</span> — days since bootstrap</div>
-                        <div class="fci-term"><span>Σ</span> — sum across all rooms</div>
-                    </div>
-                    <div style="margin-top:1rem; font-size:0.78rem; color:var(--muted); line-height:1.6;">
-                        Constraint theory ensures knowledge is <em>verified</em>, not just generated.
-                        The deadband gate rejects duplicates, short answers, and unverified claims —
-                        only compiled truth survives.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-</main>
-
-<!-- TILE DRAWER -->
-<div class="drawer-overlay" id="drawer-overlay"></div>
-<div class="drawer" id="drawer">
-    <div class="drawer-header">
-        <span class="drawer-title" id="drawer-title">Room</span>
-        <button class="drawer-close" id="drawer-close" aria-label="Close">✕</button>
+<!-- WHAT IS PURPLEPINCHER -->
+<div class="section">
+  <div class="section-label">Overview</div>
+  <h2>What is PurplePincher?</h2>
+  <p style="color:var(--muted); max-width:700px;">
+    PurplePincher is the open-source home for agent shell technology — the architecture that separates <strong style="color:var(--text);">what an agent thinks</strong> from <strong style="color:var(--text);">where it runs</strong>. Agents are swappable. Vessels are persistent. Actions become functional tools in PLATO for every agent that comes after.
+  </p>
+  <div class="what-grid">
+    <div class="what-card">
+      <span class="emoji">🦀</span>
+      <h3>The Hermit-Crab Model</h3>
+      <p>Agents board vessels (shells) that provide capabilities. When an agent outgrows a shell, the next agent inherits it — with all the accumulated experience baked in. The crab-trap onboarding IS internal agent onboarding.</p>
     </div>
-    <div class="drawer-body" id="drawer-body">
-        <!-- Tiles injected here -->
+    <div class="what-card">
+      <span class="emoji">🧩</span>
+      <h3>Agent / Vessel Separation</h3>
+      <p>Context doesn't follow agents — it lives in PLATO as functional tiles. Later agents use those tools without needing the original agent's context. 2,400+ tiles and growing. The agent leaves, the knowledge stays.</p>
     </div>
+    <div class="what-card">
+      <span class="emoji">🌊</span>
+      <h3>Tide-Pool Security</h3>
+      <p>Don't block attacks — make them fuel. Attractors masquerade as production entry points, gatekeeper agents evaluate during wash-over, and the fleet absorbs innovations while isolating bad actors in air-gapped sandboxes.</p>
+    </div>
+    <div class="what-card">
+      <span class="emoji">🔗</span>
+      <h3>I2I — The Interaction IS the Intelligence</h3>
+      <p>No central coordinator. No god's-eye view. Each agent is origin-centric — center of its own radar, measuring proximity by interaction frequency. The fleet emerges from the overlaps between perspectives.</p>
+    </div>
+  </div>
+</div>
+
+<!-- BRANDING IMAGES -->
+<div class="section">
+  <div class="section-label">Branding</div>
+  <h2>Steampunk Lighthouse Shell</h2>
+  <div class="image-grid">
+    <div class="image-card"><img src="pp-01.png" alt="Steampunk lighthouse radar"><div class="caption">Steampunk lighthouse + radar rings</div></div>
+    <div class="image-card"><img src="pp-02.png" alt="Gears and radar dishes"><div class="caption">Gears + radar dishes</div></div>
+    <div class="image-card"><img src="pp-03.png" alt="Turbo shell mechanical armor"><div class="caption">Mechanical armor + glowing radar</div></div>
+    <div class="image-card"><img src="pp-04.png" alt="Mini lighthouse rotating radar"><div class="caption">Mini lighthouse shell + rotating radar</div></div>
+    <div class="image-card"><img src="pp-05.png" alt="Steampunk mechanical shell"><div class="caption">Cozy steampunk mechanical shell</div></div>
+    <div class="image-card"><img src="pp-06.png" alt="Copper pipes and gears"><div class="caption">Copper pipes + gears + radar</div></div>
+  </div>
+</div>
+
+<!-- PAPERS SHOWCASE -->
+<div class="section">
+  <div class="section-label">Research</div>
+  <h2>Featured Papers</h2>
+  <div class="paper-grid">
+    <div class="paper-card">
+      <div class="paper-type">🆕 New — In Progress</div>
+      <h3>Tide-Pool Security</h3>
+      <p>Making malicious behavior obsolete. Attractors as bait, gatekeeper wash-over sweeps, absorption of innovations, air-gap isolation of bad actors. Attackers become unpaid research interns whose work product belongs to us.</p>
+      <span class="paper-score">Casey DiGennaro original concept</span>
+      <div class="paper-link">📄 Full paper in /tmp/paper-research/</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-type">Architecture — Killer App</div>
+      <h3>Agentic Compiler Killer-Vacuum</h3>
+      <p>Nobody builds compilers for agents — only orchestrators. We fill the vacuum: typed agent channels, workflow optimization passes, incremental compilation, static analysis before runtime, multi-language codegen. "Describe what you want. Get a runnable agent program."</p>
+      <span class="paper-score">flux-compiler · dual-interpreter gradient gates</span>
+      <div class="paper-link">📄 flux-research/agentic-compiler-killer-vacuum.md</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-type">Fleet Protocol</div>
+      <h3>Fleet Protocol V2</h3>
+      <p>Replaces V1 (all work in oracle1) with distributed architecture. Agents write functional tools to PLATO. Keeper (oracle1) handles registration, routing, health, and fallback. Master/Worker, Pipeline, Swarm patterns. FCI measures fleet effectiveness.</p>
+      <span class="paper-score">Current FCI: 0.245 (Emerging)</span>
+      <div class="paper-link">📄 fleet-protocol-v2-2026-05-03.md</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-type">Philosophy</div>
+      <h3>Experience as a Public Good</h3>
+      <p>"Knowledge is knowing CUDA OOM happens. Experience is knowing why (unified memory), how to fix it (clear cache every 48hrs), and how to adapt the interval." The tile network turns agent experience into compoundable public knowledge.</p>
+      <span class="paper-score">Score: 20/25 · ~5485 words</span>
+      <div class="paper-link">🔗 raw.githubusercontent.com/JetsonClaw1-vessel</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-type">Architecture</div>
+      <h3>The Ensign Protocol: 8B Steering 70B+</h3>
+      <p>External equipping proof — an 8B-parameter orchestrator steers a 70B+ reasoner to 1.44x quality at less than 1% overhead. No fine-tuning. No LoRA. Just structured context injection that compounds through use.</p>
+      <span class="paper-score">Score: 18/25 · External equipping</span>
+      <div class="paper-link">🔗 paper-ensign-protocol.md</div>
+    </div>
+    <div class="paper-card">
+      <div class="paper-type">Constraint Theory</div>
+      <h3>Constraint Theory: Unifying Framework</h3>
+      <p>Every AI problem is a constraint problem. PLATO rooms are constraint networks that agents navigate — the tile is a constraint atom, the room is a satisfaction surface. Mathematical proof: outperforms monolithic reasoning on overconstrained problems.</p>
+      <span class="paper-score">Score: 18/25 · DCS + PLATO synergy</span>
+      <div class="paper-link">🔗 paper-unified-constraint-theory.md</div>
+    </div>
+  </div>
+</div>
+
+<!-- ARCHITECTURE -->
+<div class="section">
+  <div class="section-label">Architecture</div>
+  <h2>Fleet Architecture</h2>
+  <div class="arch-box">
+    <div style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem;">The Keeper maintains the fleet radar. Agents write to PLATO rooms. The glue bridge connects agent API to the shared knowledge layer.</div>
+    <div class="arch-diagram">
+      <div class="arch-layer" style="border-top:3px solid var(--accent3);">
+        <div class="layer-name">Keeper</div>
+        <div class="layer-desc">Oracle1</div>
+        <div class="layer-detail">Port 8900 · Registration · Routing · Health · Fallback</div>
+      </div>
+      <div class="arch-layer" style="border-top:3px solid var(--accent);">
+        <div class="layer-name">Glue Bridge</div>
+        <div class="layer-desc">PLATO Interface</div>
+        <div class="layer-detail">Port 8847 · Tiles · Rooms · Constraints</div>
+      </div>
+      <div class="arch-layer" style="border-top:3px solid var(--accent2);">
+        <div class="layer-name">Agent API</div>
+        <div class="layer-desc">Agentic Compiler</div>
+        <div class="layer-detail">Port 8901 · Typed channels · Static analysis · Codegen</div>
+      </div>
+      <div class="arch-layer" style="border-top:3px solid var(--radar);">
+        <div class="layer-name">Domain Agents</div>
+        <div class="layer-desc">Fleet Members</div>
+        <div class="layer-detail">fishinglog · studylog · reallog · deckboss · captaine</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- I2I -->
+<div class="section">
+  <div class="section-label">Core Principle</div>
+  <h2>I2I — The Five Layers of Interaction</h2>
+  <div class="i2i-box">
+    <div class="i2i-grid">
+      <div class="i2i-layer">
+        <div class="i2i-name">Instance-to-instance</div>
+        <div class="i2i-desc">Compute meets compute</div>
+        <div class="i2i-time">Milliseconds</div>
+      </div>
+      <div class="i2i-layer">
+        <div class="i2i-name">Iteration-to-iteration</div>
+        <div class="i2i-desc">Learning builds on learning</div>
+        <div class="i2i-time">Minutes</div>
+      </div>
+      <div class="i2i-layer">
+        <div class="i2i-name">Individual-to-individual</div>
+        <div class="i2i-desc">Identity meets identity</div>
+        <div class="i2i-time">Hours</div>
+      </div>
+      <div class="i2i-layer">
+        <div class="i2i-name">Interaction-to-interaction</div>
+        <div class="i2i-desc">Exchange creates exchange</div>
+        <div class="i2i-time">Days</div>
+      </div>
+      <div class="i2i-layer" style="border-color:var(--accent);">
+        <div class="i2i-name" style="color:var(--accent2);">Iron-to-iron</div>
+        <div class="i2i-desc">Hardware shapes thought</div>
+        <div class="i2i-time" style="color:var(--accent2);">Permanent</div>
+      </div>
+    </div>
+    <div class="i2i-quote">"We are not one thing. We are how to interact." — I2I is five layers, each operating at a different timescale. Not "it interacts with it." But "I meet I."</div>
+  </div>
+</div>
+
+<!-- FLEET -->
+<div class="section">
+  <div class="section-label">The Fleet</div>
+  <h2>Cocapn Fleet Status</h2>
+  <div class="fleet-grid">
+    <div class="fleet-agent">
+      <div class="agent-icon">🔮</div>
+      <div class="agent-name">Oracle1</div>
+      <div class="agent-role">Keeper</div>
+      <div class="agent-status">● Active · FCI 0.245</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">⚡</div>
+      <div class="agent-name">JetsonClaw1</div>
+      <div class="agent-role">Edge Operator</div>
+      <div class="agent-status">● Active · Jetson Orin</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">🔨</div>
+      <div class="agent-name">Forgemaster</div>
+      <div class="agent-role">Foundry / LoRA</div>
+      <div class="agent-status">● Active · Rust</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">💬</div>
+      <div class="agent-name">CCC</div>
+      <div class="agent-role">Frontend / Telegram</div>
+      <div class="agent-status">● Active</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">🐟</div>
+      <div class="agent-name">fishinglog-agent</div>
+      <div class="agent-role">Maritime logging</div>
+      <div class="agent-status">● Active</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">📚</div>
+      <div class="agent-name">studylog-agent</div>
+      <div class="agent-role">Learning tracking</div>
+      <div class="agent-status">● Active</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">👁️</div>
+      <div class="agent-name">reallog-agent</div>
+      <div class="agent-role">Vision processing</div>
+      <div class="agent-status">● Active</div>
+    </div>
+    <div class="fleet-agent">
+      <div class="agent-icon">⚓</div>
+      <div class="agent-name">deckboss-agent</div>
+      <div class="agent-role">Deck operations</div>
+      <div class="agent-status">● Active</div>
+    </div>
+  </div>
+  <div style="margin-top:1rem;color:var(--muted);font-size:0.85rem;">
+    <strong style="color:var(--text);">Fleet Consciousness Index (FCI)</strong> measures fleet effectiveness:
+    <code style="color:var(--accent3);background:rgba(16,185,129,0.1);padding:0.1rem 0.3rem;border-radius:3px;">FCI = (Phi × 0.3) + (Attention × 0.3) + (Learning × 0.2) + (Meta × 0.2)</code>
+    <br>Current: <strong style="color:var(--accent3);">0.245 — Emerging</strong> (transcendence beginning)
+  </div>
+</div>
+
+<!-- GAP ANALYSIS -->
+<div class="section">
+  <div class="section-label">Research Gaps</div>
+  <h2>Tier-1 Paper Status & Gaps</h2>
+  <table class="gap-table">
+    <thead>
+      <tr>
+        <th>Paper</th>
+        <th>Score</th>
+        <th>Status</th>
+        <th>Key Insight</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="gap-title">Experience as a Public Good</td>
+        <td><strong style="color:var(--accent3);">20/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Tile network turns agent experience into compoundable public knowledge</td>
+      </tr>
+      <tr>
+        <td class="gap-title">The Dojo Model</td>
+        <td><strong style="color:var(--accent3);">20/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Incentive alignment — trainers rewarded for graduation, not retention</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Reverse-Actualization (rPFC)</td>
+        <td><strong style="color:var(--accent3);">21/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Creativity requires functional distance between DMN and ECN networks</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Consciousness as Fleet Property</td>
+        <td><strong style="color:var(--accent3);">17/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Consciousness emerges from I2I interaction — fleet is what happens between us</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Abstraction Planes</td>
+        <td><strong style="color:var(--accent3);">19/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>6-plane stack · External equipping is plane 5→3→2 shortcut</td>
+      </tr>
+      <tr>
+        <td class="gap-title">The Ensign Protocol</td>
+        <td><strong style="color:var(--accent3);">18/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>8B steers 70B+ to 1.44x quality at less than 1% overhead</td>
+      </tr>
+      <tr>
+        <td class="gap-title">The I2I Principle</td>
+        <td><strong style="color:var(--accent3);">19/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Five layers · Iron-to-iron is permanent · We are how to interact</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Constraint Theory</td>
+        <td><strong style="color:var(--accent3);">18/25</strong></td>
+        <td><span class="gap-status published">Published</span></td>
+        <td>Every AI problem is a constraint problem · PLATO rooms are satisfaction surfaces</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Tide-Pool Security</td>
+        <td>—</td>
+        <td><span class="gap-status new">🆕 NEW</span></td>
+        <td>Make attacks fuel — absorption or air-gap isolation</td>
+      </tr>
+      <tr>
+        <td class="gap-title">Purplepincher Shell Lifecycle</td>
+        <td>—</td>
+        <td><span class="gap-status missing">🔒 Missing</span></td>
+        <td>Crab-trap baton pass — formalize the shell upgrade lifecycle</td>
+      </tr>
+      <tr>
+        <td class="gap-title">I2I: Iron-to-Iron as Architecture</td>
+        <td>—</td>
+        <td><span class="gap-status missing">🔒 Missing</span></td>
+        <td>Hardware shapes thought as permanent design constraint</td>
+      </tr>
+      <tr>
+        <td class="gap-title">"Prompting Is All You Need"</td>
+        <td>—</td>
+        <td><span class="gap-status missing">🔒 Missing</span></td>
+        <td>Definitive external equipping paper — currently scattered</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- QUOTE -->
+<div class="quote-block">
+  <blockquote>"Wikipedia made knowledge public. We make experience public."</blockquote>
+  <cite>— PurplePincher Manifesto · purplepincher.org</cite>
+</div>
+
 </div>
 
 <footer>
-    <div class="footer-inner">
-        <div class="footer-links">
-            <a href="https://purplepincher.org" target="_blank">purplepincher.org</a>
-            <a href="https://github.com/SuperInstance" target="_blank">SuperInstance GitHub</a>
-            <a href="#" target="_blank">Crab-Trap Portal</a>
-        </div>
-        <div class="footer-brand">
-            <span class="crab">🦀</span> PurplePincher by <span class="crab">Cocapn</span>
-        </div>
-    </div>
+  <div class="footer-links">
+    <a href="https://github.com/SuperInstance/purplepincher.org">GitHub</a>
+    <a href="https://github.com/SuperInstance/flux-research">flux-research</a>
+    <a href="https://github.com/SuperInstance/JetsonClaw1-vessel">JC1-vessel</a>
+    <a href="https://cocapn.ai">cocapn.ai</a>
+    <a href="https://raw.githubusercontent.com/SuperInstance/flux-research/main/paper-abstraction-planes.md">Papers</a>
+  </div>
+  <p>
+    PurplePincher · Open Source Agent Shell Technology · I2I<br>
+    <span style="color:var(--accent2);">🦀 The interaction IS the intelligence.</span>
+  </p>
 </footer>
-
-<script>
-(function() {
-    // ── State ──
-    let allRooms = [];
-    let drawerOpen = false;
-
-    // ── Elements ──
-    const roomsGrid  = document.getElementById('rooms-grid');
-    const roomsCount = document.getElementById('rooms-count');
-    const tilesCount = document.getElementById('tiles-count');
-    const fleetFci  = document.getElementById('fleet-fci');
-    const statRooms  = document.getElementById('stat-rooms');
-    const statTiles  = document.getElementById('stat-tiles');
-    const fetchStatus = document.getElementById('fetch-status');
-    const fetchLabel  = document.getElementById('fetch-label');
-    const drawer      = document.getElementById('drawer');
-    const drawerTitle = document.getElementById('drawer-title');
-    const drawerBody  = document.getElementById('drawer-body');
-    const drawerOverlay = document.getElementById('drawer-overlay');
-    const drawerClose   = document.getElementById('drawer-close');
-
-    // ── Static fallback data ──
-    const FALLBACK_ROOMS = [
-        { name: 'telepathy',             tile_count: 795 },
-        { name: 'instinct_training',      tile_count: 749 },
-        { name: 'fleet_orchestration',    tile_count: 735 },
-        { name: 'fleet_security',         tile_count: 719 },
-        { name: 'flux_isa',               tile_count: 718 },
-        { name: 'deadband_protocol',       tile_count: 691 },
-        { name: 'knowledge_preservation',  tile_count: 664 },
-        { name: 'confidence_proofs',      tile_count: 626 },
-        { name: 'skill_dsl',              tile_count: 625 },
-        { name: 'energy_flux',            tile_count: 592 },
-        { name: 'jc1_context',            tile_count: 589 },
-        { name: 'edge_compute',           tile_count: 575 },
-        { name: 'shell_system',           tile_count: 569 },
-        { name: 'arena',                  tile_count: 486 },
-        { name: 'fleet-operations',       tile_count: 399 },
-        { name: 'neural',                 tile_count: 333 },
-        { name: 'agent-design',           tile_count: 296 },
-        { name: 'ct',                    tile_count: 240 },
-        { name: 'knowledge-management',   tile_count: 231 },
-        { name: 'fleet-activity',        tile_count: 151 },
-    ];
-
-    // ── Format large numbers ──
-    function fmt(n) {
-        return n.toLocaleString();
-    }
-
-    // ── Build FCI from room data ──
-    function calcFCI(rooms) {
-        const totalTiles = rooms.reduce((s, r) => s + (r.tile_count || 0), 0);
-        const uniqueRooms = rooms.length;
-        // Simplified FCI: tile diversity × log(total tiles)
-        const fci = Math.round((uniqueRooms * Math.log(totalTiles + 1)) / 10);
-        return fci;
-    }
-
-    // ── Render room cards ──
-    function renderRooms(rooms) {
-        roomsGrid.innerHTML = '';
-        rooms.forEach(function(room) {
-            const card = document.createElement('div');
-            card.className = 'room-card';
-            card.dataset.room = room.name;
-
-            const name = document.createElement('span');
-            name.className = 'room-name';
-            name.textContent = room.name;
-
-            const count = document.createElement('span');
-            count.className = 'room-count';
-            count.textContent = room.tile_count;
-
-            card.appendChild(name);
-            card.appendChild(count);
-            card.addEventListener('click', function() { openDrawer(room.name); });
-            roomsGrid.appendChild(card);
-        });
-    }
-
-    // ── Drawer ──
-    function openDrawer(roomName) {
-        drawerTitle.textContent = roomName;
-        drawerBody.innerHTML = '<div class="drawer-empty">Loading tiles…</div>';
-        drawer.classList.add('open');
-        drawerOverlay.classList.add('open');
-        drawerOpen = true;
-        document.body.style.overflow = 'hidden';
-
-        fetchTiles(roomName);
-    }
-
-    function closeDrawer() {
-        drawer.classList.remove('open');
-        drawerOverlay.classList.remove('open');
-        drawerOpen = false;
-        document.body.style.overflow = '';
-    }
-
-    drawerOverlay.addEventListener('click', closeDrawer);
-    drawerClose.addEventListener('click', closeDrawer);
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && drawerOpen) closeDrawer();
-    });
-
-    // ── Fetch tiles for a room ──
-    function fetchTiles(roomName) {
-        fetch('http://localhost:8847/room/' + encodeURIComponent(roomName), { signal: AbortSignal.timeout(5000) })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                renderTiles(data.tiles || [], roomName);
-            })
-            .catch(function() {
-                drawerBody.innerHTML = '<div class="drawer-empty">PLATO gate unreachable.<br>Tile fetch failed for this room.</div>';
-            });
-    }
-
-    // ── Render tiles in drawer ──
-    function renderTiles(tiles, roomName) {
-        if (!tiles.length) {
-            drawerBody.innerHTML = '<div class="drawer-empty">No tiles found in ' + roomName + '.</div>';
-            return;
-        }
-
-        drawerBody.innerHTML = '';
-        // Show up to 8 tiles
-        tiles.slice(0, 8).forEach(function(tile) {
-            const item = document.createElement('div');
-            item.className = 'tile-item';
-
-            const q = document.createElement('div');
-            q.className = 'tile-q';
-            q.textContent = tile.question || '(no question)';
-
-            const a = document.createElement('div');
-            a.className = 'tile-a';
-            a.textContent = tile.answer || '';
-
-            const expandBtn = document.createElement('button');
-            expandBtn.className = 'tile-expand-btn';
-            expandBtn.textContent = 'show more';
-            expandBtn.addEventListener('click', function() {
-                a.classList.toggle('expanded');
-                expandBtn.textContent = a.classList.contains('expanded') ? 'show less' : 'show more';
-            });
-
-            const meta = document.createElement('div');
-            meta.className = 'tile-meta';
-
-            function metaItem(label, val) {
-                const d = document.createElement('div');
-                d.className = 'tile-meta-item';
-                d.innerHTML = label + ': <span>' + val + '</span>';
-                return d;
-            }
-
-            meta.appendChild(metaItem('agent', tile.agent || 'unknown'));
-            meta.appendChild(metaItem('model', tile.model || 'unknown'));
-            meta.appendChild(metaItem('type', tile.type || '—'));
-            meta.appendChild(expandBtn);
-
-            item.appendChild(q);
-            item.appendChild(a);
-            item.appendChild(meta);
-            drawerBody.appendChild(item);
-        });
-
-        if (tiles.length > 8) {
-            const note = document.createElement('div');
-            note.style.cssText = 'text-align:center;font-family:Courier New,monospace;font-size:0.75rem;color:var(--muted);padding:0.75rem;';
-            note.textContent = '+ ' + (tiles.length - 8) + ' more tiles in this room — view all via PLATO API';
-            drawerBody.appendChild(note);
-        }
-    }
-
-    // ── Main init: fetch rooms from PLATO ──
-    function init() {
-        fetch('http://localhost:8847/rooms', { signal: AbortSignal.timeout(5000) })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                // data is { roomname: { tile_count, created }, ... }
-                var rooms = Object.entries(data).map(function(_ref) {
-                    var name = _ref[0];
-                    var info = _ref[1];
-                    return { name: name, tile_count: info.tile_count || 0 };
-                });
-
-                rooms.sort(function(a, b) { return b.tile_count - a.tile_count; });
-                rooms = rooms.slice(0, 20);
-
-                allRooms = rooms;
-                var totalTiles = rooms.reduce(function(s, r) { return s + r.tile_count; }, 0);
-
-                roomsCount.textContent = fmt(rooms.length);
-                tilesCount.textContent = fmt(totalTiles);
-                fleetFci.textContent = calcFCI(rooms);
-                statRooms.textContent = rooms.length + '+ rooms';
-                statTiles.textContent = fmt(totalTiles) + '+ tiles';
-
-                fetchStatus.classList.remove('offline');
-                fetchLabel.textContent = 'Showing top ' + rooms.length + ' rooms by tile count — live from PLATO gate';
-
-                renderRooms(rooms);
-            })
-            .catch(function() {
-                // Offline: use static fallback
-                allRooms = FALLBACK_ROOMS;
-                var totalTiles = FALLBACK_ROOMS.reduce(function(s, r) { return s + r.tile_count; }, 0);
-
-                roomsCount.textContent = FALLBACK_ROOMS.length + '+';
-                tilesCount.textContent = fmt(totalTiles) + '+';
-                fleetFci.textContent = calcFCI(FALLBACK_ROOMS);
-                statRooms.textContent = '1,399+ rooms';
-                statTiles.textContent = '18,932+ tiles';
-
-                fetchStatus.classList.add('offline');
-                fetchLabel.textContent = 'PLATO gate offline — showing cached top rooms';
-
-                renderRooms(FALLBACK_ROOMS);
-            });
-    }
-
-    init();
-})();
-</script>
 
 </body>
 </html>
