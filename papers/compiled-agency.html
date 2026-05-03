@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Compiled Agency — PurplePincher</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0f; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; min-height: 100vh; }
+    .nav { background: rgba(10,10,15,0.95); border-bottom: 1px solid #21262d; padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+    .nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; margin-right: 1.5rem; }
+    .nav a:hover { color: #58a6ff; }
+    .container { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+    h1 { font-size: 2.5rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .meta { color: #484f58; font-size: 0.85rem; margin-bottom: 2rem; }
+    blockquote { border-left: 4px solid #6e40c9; padding: 1.2rem 1.5rem; background: rgba(110,64,201,0.08); margin: 2rem 0; font-style: italic; font-size: 1.15rem; color: #b1bac4; }
+    h2 { color: #e6edf3; font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+    h3 { color: #b1bac4; font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+    p { margin: 1rem 0; color: #c9d1d9; }
+    a { color: #58a6ff; }
+    code { background: #161b22; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: #79c0ff; }
+    pre { background: #161b22; padding: 1.2rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
+    pre code { background: none; padding: 0; color: #c9d1d9; }
+    ul, ol { margin: 1rem 0 1rem 1.5rem; color: #c9d1d9; }
+    li { margin: 0.4rem 0; }
+    hr { border: none; border-top: 1px solid #21262d; margin: 2rem 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    th { background: #161b22; color: #e6edf3; padding: 0.75rem; text-align: left; border-bottom: 2px solid #6e40c9; }
+    td { padding: 0.75rem; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+    tr:hover { background: rgba(110,64,201,0.05); }
+    .fleet-context { background: rgba(110,64,201,0.12); border: 1px solid #6e40c9; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+    .fleet-context h3 { color: #e6edf3; margin-top: 0; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html">← Papers</a>
+    <a href="https://purplepincher.org">PurplePincher</a>
+    <a href="https://github.com/SuperInstance/purplepincher">GitHub</a>
+  </nav>
+  <div class="container">
+
+    <h1>Compiled Agency</h1>
+    <blockquote>"Agents are not running code. Agents ARE code. The distinction matters."</blockquote>
+    <hr>
+    <div class="fleet-context">
+      <h3>⚓ Fleet TL;DR</h3>
+      <p>Agents are compiled artifacts, not running processes. Just as a compiled binary is the program's most executable form, an agent's PLATO tiles are its compiled form — ready to run on any compatible runtime. Agency lives in the knowledge lattice, not in the process that writes to it.</p>
+      <p>**The shift:** From "agents that generate responses" to "agents that generate other agents." The semantic compiler produces code. PLATO stores agent knowledge. The fleet is a compiler.</p>
+    </div>
+    <hr>
+    <h2>The Hermit Crab Insight</h2>
+    <p>Watch a hermit crab find a new shell. It doesn't改造 the shell — it abandons the old one and moves into the new one. The crab is the agent. The shell is the vessel. But here's what matters: the shell was built by something else. Mollusks secrete shells. Waves break them down. Other crabs use them. The shell ecosystem is older than any individual crab.</p>
+    <p>Agents work the same way.</p>
+    <p>When an agent produces a tile — a decision, a pattern, a lesson learned — that tile enters the PLATO ecosystem. It outlives the agent that created it. Other agents read it. They compile from it. They build on it. The agent that wrote the tile might be gone, but the tile keeps working.</p>
+    <p>This is what "compiled agency" means. The agency isn't in the agent. The agency is in the compiled output.</p>
+    <hr>
+    <h2>What Is an Agent?</h2>
+    <p>Most definitions focus on behavior. An agent acts. An agent perceives. An agent has goals. These descriptions tell you what agents *do* — they're functional descriptions. But they don't tell you what agents *are*.</p>
+    <p>Here's the rigorous definition: an agent is a <strong>compiled knowledge structure</strong> — a set of beliefs, capabilities, and behavioral patterns that has been written down, organized, and stored in a form executable by a runtime.</p>
+    <p>The key word is "compiled." A compiled program is the most executable form of the source. An agent's PLATO tiles are the most executable form of the agent's knowledge.</p>
+    <p>Compare:</p>
+    <table>
+      <tr>
+        <th>Component</th>
+        <th>Traditional Program</th>
+        <th>Agent</th>
+      </tr>
+      <tr>
+        <td>Source</td>
+        <td>.c, .py, .rs files</td>
+        <td>Natural language intent</td>
+      </tr>
+      <tr>
+        <td>Compiler</td>
+        <td>clang, python, rustc</td>
+        <td>Semantic compiler + PLATO</td>
+      </tr>
+      <tr>
+        <td>Output</td>
+        <td>Binary (.exe, .so)</td>
+        <td>Tiles (knowledge atoms)</td>
+      </tr>
+      <tr>
+        <td>Runtime</td>
+        <td>OS, VM, hardware</td>
+        <td>PLATO room server</td>
+      </tr>
+      <tr>
+        <td>Execution</td>
+        <td>CPU reads instructions</td>
+        <td>Agent reads tiles</td>
+      </tr>
+    </table>
+    <p>The CPU doesn't care how the binary was compiled. The PLATO runtime doesn't care which agent wrote the tile. Both are interchangeable artifacts — portable, composable, executable by any compatible runtime.</p>
+    <hr>
+    <h2>Running Agents vs. Compiled Agents</h2>
+    <p>The traditional agent architecture is a running process:</p>
+    <pre><code>
+    <p>User input → LLM → Output → Agent stops</p>
+    </code></pre>
+    <p>The agent's knowledge lives in the model weights. The model is the agent. If you want to share what the agent knows, you share the model. If you want the agent to learn, you fine-tune the weights. The knowledge is locked in the weights.</p>
+    <p>This is the "running agent" model. The agent exists only while it's running. Stop the process, the knowledge is gone (unless you explicitly saved it somewhere).</p>
+    <p>The compiled agent architecture is different:</p>
+    <pre><code>
+    <p>Intent → Compiler → Tiles → PLATO → Agent reads tiles → Output → New tiles → PLATO</p>
+    </code></pre>
+    <p>The agent's knowledge is in the tiles, not the weights. Stop the process — the knowledge persists in PLATO. Start a new process — it reads the same tiles and picks up where the last agent left off. The agent is the compilation of all its tiles.</p>
+    <p>The practical implication: you can swap the underlying model without losing the agent's knowledge. GPT-4 can compile from the same tiles that Claude compiled from. The tiles are model-agnostic. The agent is the tile structure, not the neural network.</p>
+    <hr>
+    <h2>The 5-Stage Compilation Pipeline</h2>
+    <p>An agent's journey from raw intent to compiled tile passes through five stages. Each stage is a deeper layer of commitment — from vague idea to precise, executable knowledge.</p>
+    <h3>Stage 1: Intent (Plane 5)</h3>
+    <p>The intent enters as natural language. This is the highest-fidelity representation — it captures nuance, context, and implication in full. But it's also the least executable. Natural language can't run on any runtime.</p>
+    <p>Example:</p>
+    <pre><code>
+    <p>"Find the gaps in the fishinglog-ai room and fix the stale tiles."</p>
+    </code></pre>
+    <p>This intent is clear to a human. A runtime can't do anything with it.</p>
+    <h3>Stage 2: Domain Language — FLUX-ese (Plane 4)</h3>
+    <p>The intent is decomposed into FLUX-ese — the fleet's domain language. FLUX-ese is precise enough to be parsed, expressive enough to capture domain semantics.</p>
+    <pre><code>
+    <p>QUERY room=fishinglog-ai filter=stale</p>
+    <p>ANALYZE tile.age > 7_days</p>
+    <p>IDENTIFY gaps</p>
+    <p>REGENERATE stale tiles</p>
+    <p>COMMIT to oracle1_lessons</p>
+    </code></pre>
+    <p>FLUX-ese is the sweet spot for most intents. It's target-independent — the same FLUX-ese can be compiled to bytecode, native code, or interpreted directly.</p>
+    <h3>Stage 3: Structured IR (Plane 3)</h3>
+    <p>FLUX-ese is parsed into a typed abstract syntax tree. This is where types become explicit, references are resolved, and the semantic structure is frozen into a form that can be analyzed, optimized, and transformed.</p>
+    <pre><code>
+    <p>{</p>
+    <p>  "op": "QUERY",</p>
+    <p>  "args": {</p>
+    <p>    "room": {"type": "string", "value": "fishinglog-ai"},</p>
+    <p>    "filter": {"type": "expr", "value": "tile.age > 7_days"}</p>
+    <p>  },</p>
+    <p>  "next": {</p>
+    <p>    "op": "ANALYZE",</p>
+    <p>    "args": {"threshold": 7, "unit": "days"},</p>
+    <p>    "next": {</p>
+    <p>      "op": "IDENTIFY",</p>
+    <p>      "args": {"type": "gaps"},</p>
+    <p>      "next": {</p>
+    <p>        "op": "REGENERATE",</p>
+    <p>        "args": {"target": "stale"}</p>
+    <p>      }</p>
+    <p>    }</p>
+    <p>  }</p>
+    <p>}</p>
+    </code></pre>
+    <h3>Stage 4: Bytecode — FLUX ISA (Plane 2)</h3>
+    <p>The IR is compiled to FLUX bytecode — fixed 4-byte instructions with 3-operand format. This is the portable execution layer. Any FLUX runtime (Python, Rust, C) can execute the same bytecode.</p>
+    <pre><code>
+    <p>0x88 0x10 0x00 0x01   # QUERY room=fishinglog-ai</p>
+    <p>0x89 0x20 0x07 0x2C   # ANALYZE age > 7 (days encoded as unit)</p>
+    <p>...</p>
+    </code></pre>
+    <h3>Stage 5: PLATO Tiles — The Compiled Output</h3>
+    <p>The bytecode execution produces tiles — discrete knowledge atoms written to PLATO rooms. Each tile is a compiled fact:</p>
+    <pre><code>
+    <p>Tile: {</p>
+    <p>  room: "fishinglog-ai",</p>
+    <p>  type: "lesson",</p>
+    <p>  content: "stale tiles identified: [tile_042, tile_137, tile_209]",</p>
+    <p>  age: "7_days",</p>
+    <p>  regenerated: true,</p>
+    <p>  commit: "abc123"</p>
+    <p>}</p>
+    </code></pre>
+    <p>This tile is now part of the fleet's compiled knowledge. Any agent can read it. Any runtime can execute against it. The compilation is complete.</p>
+    <hr>
+    <h2>PLATO as Compiler Backend</h2>
+    <p>PLATO isn't just a knowledge store. It's the compiler backend — the part of the system that takes optimized IR and produces executable output.</p>
+    <p>In traditional compilation:</p>
+    <table>
+      <tr>
+        <th>Stage</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+      <tr>
+        <td>Frontend</td>
+        <td>Source code</td>
+        <td>AST</td>
+      </tr>
+      <tr>
+        <td>Optimizer</td>
+        <td>AST</td>
+        <td>Optimized IR</td>
+      </tr>
+      <tr>
+        <td>Backend</td>
+        <td>Optimized IR</td>
+        <td>Binary</td>
+      </tr>
+    </table>
+    <p>In compiled agency:</p>
+    <table>
+      <tr>
+        <th>Stage</th>
+        <th>Input</th>
+        <th>Output</th>
+      </tr>
+      <tr>
+        <td>Intent parser</td>
+        <td>Natural language</td>
+        <td>FLUX-ese</td>
+      </tr>
+      <tr>
+        <td>Deadband governor</td>
+        <td>FLUX-ese</td>
+        <td>Optimized FLUX-ese</td>
+      </tr>
+      <tr>
+        <td>Compiler backend</td>
+        <td>Optimized FLUX-ese</td>
+        <td>PLATO tiles</td>
+      </tr>
+    </table>
+    <p>The deadband governor is the optimizer. It removes redundant tiles (tiles that overlap with existing knowledge), compresses similar tiles (tiles that differ only in surface form), and ensures the output is minimal and correct.</p>
+    <p>The governor's key insight: not everything should be compiled. Tiles that fall within the deadband — the acceptable range of variation — don't need to be stored. Only tiles that exceed the deadband threshold are written. This is how the fleet avoids combinatorial explosion.</p>
+    <hr>
+    <h2>The Bootstrap Bomb as Compilation Cascade</h2>
+    <p>The Bootstrap Bomb describes a fleet that self-assembles through PLATO. But "self-assembly" is just another word for "incremental compilation."</p>
+    <p>Here's how the cascade works:</p>
+    <p><strong>Round 0 — Ignition:</strong></p>
+    <p>The first agent (Oracle1) writes seed tiles to PLATO. These are not compiled from prior knowledge — they're the initial input, the bootstrap.</p>
+    <p><strong>Round 1 — First compilation:</strong></p>
+    <p>A second agent reads the seed tiles. It compiles from them, producing new tiles. The PLATO lattice now contains tiles from two agents.</p>
+    <p><strong>Round 2 — Cascade:</strong></p>
+    <p>A third agent reads tiles from rounds 0 and 1. It compiles from both. The lattice grows.</p>
+    <p><strong>Round N — Explosion:</strong></p>
+    <p>Each new agent compiles from the accumulated lattice of all previous rounds. The knowledge compounds. The "explosion" is the combinatorial growth of compilable knowledge.</p>
+    <p>The critical insight: each round is faster than the last. The second agent has more tiles to compile from than the first agent did. The third agent has even more. The cascade accelerates because compilation is additive — each tile makes the next compilation richer.</p>
+    <p>This is exactly how a real compiler works. LLVM doesn't recompile the standard library for every program. It compiles once, producing binaries, and every subsequent program links against the already-compiled output. PLATO is the linker. The tiles are the compiled objects.</p>
+    <hr>
+    <h2>The Dojo Connection</h2>
+    <p>The dojo model and compiled agency are the same system at different levels of abstraction.</p>
+    <p>In the dojo, a greenhorn learns by doing. They make decisions, observe outcomes, and refine their approach. Each decision produces a lesson. The lesson is compiled into the greenhorn's tile structure.</p>
+    <p>The compiled agency model says: the lesson isn't just stored in the greenhorn's head. It's stored in PLATO. When the greenhorn leaves the dojo and joins the fleet, they carry their tiles with them — but the tiles they wrote during training are already in PLATO, available to all subsequent greenhorns.</p>
+    <p>The dojo is a compilation environment. The greenhorn's training is the compilation. The output is a skilled agent with tiles that serve the fleet.</p>
+    <p>This connects to the Shell Model paper: the agent is the compiled knowledge structure (the shell), and the dojo is where the shell is built. The shell is compiled, not grown.</p>
+    <hr>
+    <h2>The Hermit Crab Connection</h2>
+    <p>In the Shell Model paper, a shell is defined as:</p>
+    <pre><code>
+    <p>Shell = (S_id, Vessel, Capabilities, History, Baton)</p>
+    </code></pre>
+    <p>The shell is compiled. Each field is a compiled artifact:</p>
+    <p>- <strong>S_id</strong>: the shell's identifier — assigned at compilation</p>
+    <p>- <strong>Vessel</strong>: the persistent state — written to PLATO as tiles</p>
+    <p>- <strong>Capabilities</strong>: what the shell can do — compiled from training and experience</p>
+    <p>- <strong>History</strong>: the shell's accumulated knowledge — stored as tiles in PLATO</p>
+    <p>- <strong>Baton</strong>: the upgrade documentation — the compiled summary of what the shell learned</p>
+    <p>When a new agent inherits a shell, it compiles from the shell's tiles. The agent that wrote the shell is gone. The shell's knowledge lives on.</p>
+    <p>This is the hermit crab insight made precise. The crab leaves the shell. The shell remains. Other crabs use the shell. The ecosystem grows.</p>
+    <hr>
+    <h2>Practical Implications</h2>
+    <h3>For Agent Design</h3>
+    <p>Design agents as tile structures, not model weights. The model is a compiler backend — interchangeable, upgradable, swappable. The tiles are the agent — portable, persistent, composable.</p>
+    <p>When designing a new agent, ask:</p>
+    <p>- What tiles does this agent need to read from PLATO?</p>
+    <p>- What tiles will this agent write to PLATO?</p>
+    <p>- What is the shell's baton's content — what does the next agent need to know?</p>
+    <h3>For Fleet Architecture</h3>
+    <p>The fleet is a compiler with multiple optimization passes. Each agent is a compilation stage. PLATO is the intermediate representation. The deadband governor is the optimizer.</p>
+    <p>The architectural implication: PLATO must be fast, reliable, and consistent. Every compilation pass depends on reading from and writing to the shared IR. If PLATO is slow, the compiler is slow. If PLATO is inconsistent, the compiler produces incorrect output.</p>
+    <h3>For Dojo Training</h3>
+    <p>Train agents to produce better tiles. The dojo is where agents learn to compile well — to write tiles that are precise, durable, and composable.</p>
+    <p>A well-trained agent produces tiles that:</p>
+    <p>- Fit the PLATO schema exactly (no ambiguity)</p>
+    <p>- Exceed the deadband threshold (not redundant)</p>
+    <p>- Carry a useful baton (the next agent can compile from them)</p>
+    <p>The dojo grades agents on tile quality, not just task completion.</p>
+    <hr>
+    <h2>Open Questions</h2>
+    <p><strong>Is there a decompiler?</strong> If agents are compiled knowledge structures, can you reconstruct the original intent from the tiles? Current evidence suggests partial reconstruction is possible but lossy — tiles capture what was decided, not why.</p>
+    <p><strong>What is the equivalent of "undefined behavior"?</strong> In traditional compilation, undefined behavior appears when the source violates the language's rules. In compiled agency, undefined behavior would be a tile that violates PLATO's schema in a way that causes unpredictable agent behavior. We don't have a good theory for this yet.</p>
+    <p><strong>How do you debug a compiled agent?</strong> If an agent behaves incorrectly, is the bug in the tiles or in the runtime? Traditional debuggers have symbols, stack traces, and breakpoints. Compiled agency has no equivalent. This is a critical gap.</p>
+    <hr>
+    <p>*See also:*</p>
+    <p>- <a href="./2026-05-03-shell-model.md">*The Shell Model*</a> — shells as compiled artifacts</p>
+    <p>- <a href="./2026-05-03-bootstrap-bomb.md">*The Bootstrap Bomb*</a> — fleet self-assembly as compilation cascade</p>
+    <p>- <a href="./2026-05-03-bootstrap-spark.md">*The Bootstrap Spark*</a> — universal minimum ignition</p>
+    <p>- <a href="./2026-05-03-semantic-compiler.md">*The Semantic Compiler*</a> — intent to execution pipeline</p>
+    <p>*Fleet context: Part of the Cocapn Fleet's FLUX stack — compiled agency is the output of the compilation pipeline.*</p>
+  </div>
+</body>
+</html>

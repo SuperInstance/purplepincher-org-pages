@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Semantic Compiler — PurplePincher</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0f; color: #c9d1d9; font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.7; min-height: 100vh; }
+    .nav { background: rgba(10,10,15,0.95); border-bottom: 1px solid #21262d; padding: 1rem 2rem; position: sticky; top: 0; z-index: 100; }
+    .nav a { color: #8b949e; text-decoration: none; font-size: 0.9rem; margin-right: 1.5rem; }
+    .nav a:hover { color: #58a6ff; }
+    .container { max-width: 800px; margin: 0 auto; padding: 3rem 2rem; }
+    h1 { font-size: 2.5rem; font-weight: 700; color: #e6edf3; margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+    .meta { color: #484f58; font-size: 0.85rem; margin-bottom: 2rem; }
+    blockquote { border-left: 4px solid #6e40c9; padding: 1.2rem 1.5rem; background: rgba(110,64,201,0.08); margin: 2rem 0; font-style: italic; font-size: 1.15rem; color: #b1bac4; }
+    h2 { color: #e6edf3; font-size: 1.5rem; margin: 2.5rem 0 1rem; }
+    h3 { color: #b1bac4; font-size: 1.15rem; margin: 1.5rem 0 0.75rem; }
+    p { margin: 1rem 0; color: #c9d1d9; }
+    a { color: #58a6ff; }
+    code { background: #161b22; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; color: #79c0ff; }
+    pre { background: #161b22; padding: 1.2rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
+    pre code { background: none; padding: 0; color: #c9d1d9; }
+    ul, ol { margin: 1rem 0 1rem 1.5rem; color: #c9d1d9; }
+    li { margin: 0.4rem 0; }
+    hr { border: none; border-top: 1px solid #21262d; margin: 2rem 0; }
+    table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+    th { background: #161b22; color: #e6edf3; padding: 0.75rem; text-align: left; border-bottom: 2px solid #6e40c9; }
+    td { padding: 0.75rem; border-bottom: 1px solid #21262d; color: #c9d1d9; }
+    tr:hover { background: rgba(110,64,201,0.05); }
+    .fleet-context { background: rgba(110,64,201,0.12); border: 1px solid #6e40c9; border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+    .fleet-context h3 { color: #e6edf3; margin-top: 0; }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="index.html">← Papers</a>
+    <a href="https://purplepincher.org">PurplePincher</a>
+    <a href="https://github.com/SuperInstance/purplepincher">GitHub</a>
+  </nav>
+  <div class="container">
+
+    <h1>The Semantic Compiler</h1>
+    <blockquote>"A compiler that understands what you mean, not just what you typed."</blockquote>
+    <hr>
+    <div class="fleet-context">
+      <h3>⚓ Fleet TL;DR</h3>
+      <p>A compiler that decomposes natural language intent into executable code at the right abstraction level. Not all the way to bytecode — just far enough. The sweet spot is FLUX-ese (domain language), not assembly. The compiler finds the optimal plane and generates the right output for the target hardware.</p>
+      <p>**Why it matters:** Agents write in natural language. Hardware runs on bytecode. The semantic compiler bridges that gap — not by compiling everything to machine code, but by compiling to the right level for the job.</p>
+    </div>
+    <hr>
+    <h2>The Problem with Traditional Compilers</h2>
+    <p>A traditional compiler is a precise machine with no semantic understanding. It takes exact syntax and produces exact output. It is correct by construction and blind by design.</p>
+    <pre><code>
+    <p>C source → Lexer → Parser → AST → Optimizer → Bytecode → Binary</p>
+    </code></pre>
+    <p>The compiler doesn't know what you're trying to accomplish. It knows only what you wrote. Write <code>x = y + z</code>, get <code>ADD X, Y, Z</code>. Whether y and z should be added is a question the compiler cannot ask, let alone answer.</p>
+    <p>This works for humans who already know what they want. They translate their intent into syntax — a programming language — and the compiler handles the rest. The human is the semantic layer. The compiler is the syntactic layer.</p>
+    <p>But agents don't work that way. Agents start from intent and need to discover the syntax. They don't know what they want to write until they've figured out what they want to do. The traditional compiler pipeline assumes the semantic layer is already solved. For agents, it isn't.</p>
+    <h2>The Semantic Gap in Agent Systems</h2>
+    <p>Every agent system has a semantic gap — the difference between what the agent means and what the agent can execute. The wider the gap, the more work the agent must do to bridge it.</p>
+    <pre><code>
+    <p>Intent (semantic) ──────── gap ──────── Execution (syntactic)</p>
+    <p>Agent must:                                </p>
+    <p>- Interpret the intent                    </p>
+    <p>- Decompose into subgoals                 </p>
+    <p>- Select the right abstraction level       </p>
+    <p>- Generate executable output               </p>
+    <p>- Verify the output is correct             </p>
+    </code></pre>
+    <p>Traditional agent systems either:</p>
+    <p>1. <strong>Narrow the gap through prompting</strong> — brute-force the semantic layer with better instructions (prompt engineering)</p>
+    <p>2. <strong>Widen the gap by simplifying the execution target</strong> — make execution easier by restricting the action space (tool use, function calling)</p>
+    <p>Both approaches are workaround. Neither closes the gap.</p>
+    <p>The semantic compiler closes the gap properly — by making decomposition itself a rigorous, optimizable process.</p>
+    <h2>The Semantic Compiler's Architecture</h2>
+    <p>The semantic compiler takes intent and produces execution through a pipeline that explicitly models decomposition:</p>
+    <pre><code>
+    <p>Intent (natural language)</p>
+    <p>    ↓ Intent Parser</p>
+    <p>FLUX-ese (domain language)</p>
+    <p>    ↓ Plane Selector</p>
+    <p>Optimal Plane (3-6, based on target and complexity)</p>
+    <p>    ↓ Decomposer</p>
+    <p>Target Output (FLUX-ese / IR / Bytecode / Native / Metal)</p>
+    <p>    ↓ Code Generator</p>
+    <p>Executable</p>
+    </code></pre>
+    <p>The key innovation: the compiler doesn't always go to the lowest level. It finds the optimal level — the level that is both executable by the target and no more abstract than necessary.</p>
+    <p>Most intents stop at Plane 4 (FLUX-ese). Only targeting specific hardware (ESP32, Jetson Thor, bare metal) requires going deeper.</p>
+    <h2>The 6 Abstraction Planes</h2>
+    <p>The compiler operates across 6 planes, each corresponding to a different level of abstraction:</p>
+    <table>
+      <tr>
+        <th>Plane</th>
+        <th>Name</th>
+        <th>Output Format</th>
+        <th>When to Target</th>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Philosophy</td>
+        <td>Natural language reasoning</td>
+        <td>Start, always</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Intent</td>
+        <td>Natural language intent specification</td>
+        <td>Clarification</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Domain Language</td>
+        <td>FLUX-ese (fleet's domain language)</td>
+        <td>**Most intents — the sweet spot**</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Structured IR</td>
+        <td>JSON AST with types</td>
+        <td>Complex logic, cross-language</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Bytecode</td>
+        <td>FLUX ISA hex opcodes</td>
+        <td>Target FLUX VM</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Native</td>
+        <td>C / Rust / Zig</td>
+        <td>Target bare metal, Jetson</td>
+      </tr>
+      <tr>
+        <td>0</td>
+        <td>Metal</td>
+        <td>Assembly</td>
+        <td>Embedded systems only</td>
+      </tr>
+    </table>
+    <p>Each plane transition has a cost. The compiler's job is to minimize total cost — not just the cost of compilation, but the cost of execution on the target.</p>
+    <h3>The Plane Selection Algorithm</h3>
+    <p>The compiler doesn't try all planes. It uses a heuristic:</p>
+    <pre><code>
+    <p>def select_plane(intent, target, complexity):</p>
+    <p>    if complexity < THRESHOLD and target.is_cloud:</p>
+    <p>        return Plane.DOMAIN  # Most intents: FLUX-ese</p>
+    <p>    elif target.is_bare_metal:</p>
+    <p>        return Plane.NATIVE  # Jetson, ESP32: compile to C/Rust</p>
+    <p>    elif complexity > HIGH_COMPLEXITY:</p>
+    <p>        return Plane.IR  # Complex logic: typed AST first</p>
+    <p>    else:</p>
+    <p>        return Plane.BYTECODE  # Default: FLUX VM</p>
+    </code></pre>
+    <p>The thresholds are learned from prior compilations. PLATO stores the outcomes of past compilations — which plane was selected, how long execution took, whether the output was correct. The compiler improves with each compilation.</p>
+    <h2>How the Compiler Works — Step by Step</h2>
+    <h3>Step 1: Intent Parsing</h3>
+    <p>The compiler receives an intent and performs semantic analysis:</p>
+    <pre><code>
+    <p>Input: "Navigate east for 10 nautical miles. Monitor reactor temperature every 30 seconds. If reactor exceeds 100°C, alert the crew and change course to north at 5 knots."</p>
+    </code></pre>
+    <p>The parser identifies:</p>
+    <p>- <strong>Actions:</strong> NAVIGATE, MONITOR, ALERT, NAVIGATE (again)</p>
+    <p>- <strong>Parameters:</strong> bearing=90, distance=10, unit=nautical_miles, interval=30s, threshold=100°C, severity=high</p>
+    <p>- <strong>Conditions:</strong> reactor_temp > 100</p>
+    <p>- <strong>Composition:</strong> sequential (first navigate+monitor, then conditional alert+course_change)</p>
+    <h3>Step 2: Target Analysis</h3>
+    <p>The compiler analyzes the target environment:</p>
+    <pre><code>
+    <p>Target: fleet-agent (cloud runtime, PLATO-connected)</p>
+    <p>Constraints: no bare-metal access, FLUX runtime available</p>
+    <p>Performance: general-purpose, not latency-critical</p>
+    </code></pre>
+    <p>For a cloud agent, Plane 4 (FLUX-ese) is almost always optimal.</p>
+    <h3>Step 3: Decomposition to FLUX-ese</h3>
+    <p>The intent decomposes to FLUX-ese:</p>
+    <pre><code>
+    <p>NAVIGATE bearing=90 distance=10 unit=nautical_miles</p>
+    <p>MONITOR gauge=reactor_temp interval=30 threshold=100 unit=celsius</p>
+    <p>IF gauge.reactor_temp > 100 THEN {</p>
+    <p>  ALERT "reactor_overheat" severity=high crew=all</p>
+    <p>  NAVIGATE bearing=0 speed=5 unit=knots</p>
+    <p>}</p>
+    </code></pre>
+    <p>This is the compiled output. It is:</p>
+    <p>- <strong>Precise:</strong> every parameter is explicit</p>
+    <p>- <strong>Executable:</strong> any FLUX runtime can parse and execute it</p>
+    <p>- <strong>Portable:</strong> the same FLUX-ese runs on any compatible runtime</p>
+    <p>- <strong>Readable:</strong> a human can verify the intent was captured correctly</p>
+    <h3>Step 4 (conditional): Deeper Compilation</h3>
+    <p>If the target is bare metal, the compiler goes deeper:</p>
+    <p><strong>Plane 3 — Structured IR:</strong></p>
+    <pre><code>
+    <p>{</p>
+    <p>  "ops": [</p>
+    <p>    {"op": "NAVIGATE", "args": {"bearing": 90, "distance": 10, "unit": "nm"}},</p>
+    <p>    {"op": "MONITOR", "args": {"gauge": "reactor_temp", "interval": 30, "threshold": 100}},</p>
+    <p>    {"op": "IF", "args": {</p>
+    <p>      "condition": "gauge.reactor_temp > 100",</p>
+    <p>      "then": [</p>
+    <p>        {"op": "ALERT", "args": {"message": "reactor_overheat", "severity": "high"}},</p>
+    <p>        {"op": "NAVIGATE", "args": {"bearing": 0, "speed": 5, "unit": "knots"}}</p>
+    <p>      ]</p>
+    <p>    }}</p>
+    <p>  ]</p>
+    <p>}</p>
+    </code></pre>
+    <p><strong>Plane 1 — Native (Rust, for Jetson):</strong></p>
+    <pre><code>
+    <p>navigate(90.0, 10.0, Unit::NauticalMiles);</p>
+    <p>loop {</p>
+    <p>    let temp = read_gauge(Gauge::ReactorTemp);</p>
+    <p>    if temp > 100.0 {</p>
+    <p>        alert("reactor_overheat", Severity::High);</p>
+    <p>        navigate(0.0, 5.0, Unit::Knots);</p>
+    <p>        break;</p>
+    <p>    }</p>
+    <p>    sleep(Duration::from_secs(30));</p>
+    <p>}</p>
+    </code></pre>
+    <p>The deeper compilation is only triggered when the target requires it. Most agents run at Plane 4.</p>
+    <h2>The PLATO Connection</h2>
+    <p>The semantic compiler writes its decisions to PLATO — every plane selection, every decomposition, every successful optimization:</p>
+    <p>- <strong>Plane selection → domain room:</strong> What plane did we pick for this type of intent? Future intents of the same type use the same plane.</p>
+    <p>- <strong>Decomposition → lessons room:</strong> How did we decompose this intent? What worked, what didn't?</p>
+    <p>- <strong>Failed decompositions → questions room:</strong> What went wrong? Why did the output fail to execute correctly?</p>
+    <p>PLATO is the compiler's memory. Each compilation improves the next one. The fleet learns to decompose better intents over time.</p>
+    <p>The deadband governor is critical here: the compiler doesn't write every decomposition to PLATO. Only decompositions that exceed the deadband threshold — ones that represent genuine improvements over prior approaches — are stored. This prevents the compiler's memory from growing unbounded.</p>
+    <h2>The Agentic Compiler: Swarm Deliberation</h2>
+    <p>The agentic-compiler repo (FM's work) adds a layer that the basic semantic compiler doesn't have: adversarial deliberation.</p>
+    <p>Instead of one compiler making a decomposition decision, multiple compiler instances propose competing decompositions. They argue. They vote. The best decomposition wins.</p>
+    <pre><code>
+    <p>Intent</p>
+    <p>  ↓</p>
+    <p>Compiler-1: proposes decomposition-A</p>
+    <p>Compiler-2: proposes decomposition-B  </p>
+    <p>Compiler-3: proposes decomposition-C</p>
+    <p>  ↓</p>
+    <p>Deliberation round: each compiler critiques the others</p>
+    <p>  ↓</p>
+    <p>Revision round: compilers revise based on critiques</p>
+    <p>  ↓</p>
+    <p>Vote: which decomposition is best?</p>
+    <p>  ↓</p>
+    <p>Best decomposition → PLATO → execution</p>
+    </code></pre>
+    <p>This is inspired by the flux-discussion-flows three-tier system:</p>
+    <p>- <strong>Tier 1:</strong> N advocates spawn divergent decompositions</p>
+    <p>- <strong>Tier 2:</strong> Judge evaluates, Synthesizer reconciles</p>
+    <p>- <strong>Tier 3:</strong> Implementation confirms or rejects</p>
+    <p>The agentic compiler is how the fleet evolves its decomposition strategy. The best decompositions become the new standard. Poor decompositions are淘汰ed by the voting process.</p>
+    <h2>The Dojo Connection</h2>
+    <p>In the greenhorn dojo, agents learn to write better intents. The semantic compiler is the grading mechanism.</p>
+    <p>A greenhorn submits an intent. The compiler decomposes it. The quality of the decomposition reveals the quality of the intent:</p>
+    <table>
+      <tr>
+        <th>Intent Quality</th>
+        <th>Compilation Result</th>
+      </tr>
+      <tr>
+        <td>Vague ("do the thing")</td>
+        <td>Compilation fails or produces wrong output</td>
+      </tr>
+      <tr>
+        <td>Over-specific ("do exactly this specific thing")</td>
+        <td>Compiles but brittle, wrong for any variation</td>
+      </tr>
+      <tr>
+        <td>Well-scoped ("achieve X given Y constraints")</td>
+        <td>Compiles cleanly, executable, robust</td>
+      </tr>
+    </table>
+    <p>The dojo trains agents to write well-scoped intents — the kind that compile to clean, robust FLUX-ese. This is a learnable skill. The semantic compiler is the teacher's tool.</p>
+    <p>The feedback loop:</p>
+    <pre><code>
+    <p>Poor intent → noisy FLUX-ese → execution fails → lesson: "scope better"</p>
+    <p>Good intent → clean FLUX-ese → execution succeeds → lesson: "this is how to write intents"</p>
+    </code></pre>
+    <p>The fleet gets better at intent-writing the same way a programmer gets better at writing pseudocode: practice, feedback, and accumulated examples in PLATO.</p>
+    <h2>Maritime Precision: Why It Matters</h2>
+    <p>The sea doesn't forgive imprecision. "Navigate generally east" is not a valid command. The ship will do something — but probably not what you meant. The difference between "navigate bearing 090" and "navigate bearing 095" is 5 nautical miles of divergence over 60 nautical miles traveled.</p>
+    <p>This is why the semantic compiler matters for the fleet. Imprecise intent produces unpredictable execution. The ocean demands precision. The fleet's agents operate in the ocean — both the literal ocean (deck sensors, navigation, weather) and the abstract ocean (PLATO rooms, coordination, distributed knowledge).</p>
+    <p>The semantic compiler is how the fleet enforces maritime precision at the intent level. It won't let you say "navigate east." It will ask: "bearing?" "distance?" "unit?" And it will compile your answers into something the ship can actually execute.</p>
+    <hr>
+    <h2>Open Questions</h2>
+    <p><strong>When should the compiler go deeper?</strong> The plane selection heuristic is learned, but the learning is slow. Can we predict plane selection from intent structure alone?</p>
+    <p><strong>How do you compile across conflicting intents?</strong> Two agents submit intents that contradict each other. The compiler decomposes both. PLATO receives conflicting tiles. What happens?</p>
+    <p><strong>Is there an optimal plane for agent-to-agent communication?</strong> When agents communicate via FLUX-ese, what plane should the message be on? Plane 4 (FLUX-ese) is the default, but Plane 3 (IR) might be better for complex coordination.</p>
+    <hr>
+    <p>*See also:*</p>
+    <p>- <a href="./2026-05-03-bootstrap-spark.md">*The Bootstrap Spark*</a> — universal minimum ignition</p>
+    <p>- <a href="./2026-05-03-bootstrap-bomb.md">*The Bootstrap Bomb*</a> — fleet self-assembly</p>
+    <p>- <a href="./2026-05-03-shell-model.md">*The Shell Model*</a> — shells as compiled artifacts</p>
+    <p>- <a href="./2026-05-03-compiled-agency.md">*Compiled Agency*</a> — agents as compiled knowledge structures</p>
+    <p>- <a href="https://github.com/SuperInstance/abstraction-planes">*Abstraction Planes*</a> — the 6-plane framework</p>
+    <p>*Fleet context: Part of the Cocapn Fleet's FLUX stack — semantic compilation is how intent becomes execution.*</p>
+  </div>
+</body>
+</html>
