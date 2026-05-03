@@ -1,230 +1,730 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PLATO Library | PurplePincher</title>
-    <style>
-        :root {
-            --bg: #0a0a0f;
-            --primary: #00d4ff;
-            --secondary: #7b2fff;
-            --text: #e0e0e0;
-            --accent: #00ff88;
-            --card-bg: #12121a;
-            --card-border: #2a2a3e;
-            --muted: #8888a0;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; line-height: 1.6; min-height: 100vh; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLATO Library — PurplePincher</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --border: #2a2a3e;
+      --primary: #00d4ff;
+      --secondary: #7b2fff;
+      --text: #e0e0e0;
+      --text-dim: #8888aa;
+      --accent: #00ff88;
+      --danger: #ff4466;
+    }
 
-        header { border-bottom: 1px solid var(--card-border); padding: 1.5rem 2rem; }
-        .header-inner { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
-        .brand { display: flex; align-items: center; gap: 0.75rem; }
-        .brand-icon { font-size: 2rem; }
-        .brand-text h1 { font-family: 'Courier New', monospace; font-size: 1.5rem; font-weight: 700; color: var(--primary); }
-        .brand-text p { font-size: 0.85rem; color: var(--muted); }
-        nav { display: flex; gap: 2rem; font-family: 'Courier New', monospace; font-size: 0.9rem; }
-        nav a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
-        nav a:hover, nav a.active { color: var(--primary); }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .live-status { display: flex; align-items: center; gap: 0.5rem; font-family: 'Courier New', monospace; font-size: 0.85rem; margin-bottom: 1.5rem; }
-        .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
-        .live-dot.offline { background: #ff4444; animation: none; }
-        @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+    /* ── HEADER ── */
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 60px;
+    }
 
-        .stats-bar { display: flex; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
-        .stat { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 0.75rem 1.25rem; }
-        .stat-label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; }
-        .stat-value { font-family: 'Courier New', monospace; font-size: 1.5rem; color: var(--primary); }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+    }
 
-        .search-wrap { margin-bottom: 1.5rem; }
-        .search-input { width: 100%; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; padding: 0.875rem 1rem; color: var(--text); font-size: 1rem; outline: none; transition: border-color 0.2s; }
-        .search-input:focus { border-color: var(--primary); }
-        .search-input::placeholder { color: var(--muted); }
+    .brand .icon { font-size: 1.4rem; }
+    .brand .name { color: var(--primary); }
 
-        .table-wrap { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; }
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #1a1a2e; padding: 0.875rem 1rem; text-align: left; font-family: 'Courier New', monospace; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--card-border); }
-        td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--card-border); font-size: 0.9rem; }
-        tr:last-child td { border-bottom: none; }
-        tr:hover td { background: #1a1a2e; }
-        .room-name { font-family: 'Courier New', monospace; color: var(--primary); cursor: pointer; }
-        .room-name:hover { color: var(--secondary); }
-        .tile-count { font-family: 'Courier New', monospace; color: var(--accent); }
-        .rank { color: var(--muted); font-size: 0.8rem; }
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
 
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 100; align-items: center; justify-content: center; }
-        .modal-overlay.open { display: flex; }
-        .modal { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 2rem; max-width: 500px; width: 90%; }
-        .modal h2 { font-family: 'Courier New', monospace; color: var(--primary); margin-bottom: 0.5rem; }
-        .modal .tile-info { color: var(--accent); font-family: 'Courier New', monospace; margin-bottom: 1rem; }
-        .modal p { color: var(--muted); margin-bottom: 1rem; line-height: 1.6; }
-        .modal-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
-        .modal a { padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.85rem; }
-        .modal .btn-primary { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; }
-        .modal .btn-secondary { background: var(--card-border); color: var(--text); }
-        .modal .close-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 1.5rem; position: absolute; right: 1rem; top: 1rem; }
+    nav a {
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 0.4rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      transition: color 0.15s, background 0.15s;
+    }
 
-        footer { border-top: 1px solid var(--card-border); padding: 2rem; margin-top: 3rem; text-align: center; color: var(--muted); font-size: 0.85rem; }
-        footer a { color: var(--primary); text-decoration: none; }
-        footer a:hover { color: var(--secondary); }
-        .footer-links { margin-top: 0.75rem; display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
+    nav a:hover { color: var(--text); background: var(--border); }
+    nav a.active { color: var(--primary); }
 
-        .loading { text-align: center; padding: 3rem; color: var(--muted); font-family: 'Courier New', monospace; }
-        .error-state { text-align: center; padding: 3rem; }
-        .error-state h3 { color: #ff4444; margin-bottom: 0.5rem; }
-        .error-state p { color: var(--muted); margin-bottom: 1rem; }
-    </style>
+    .status-pill {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      font-family: monospace;
+      padding: 0.3rem 0.75rem;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      transition: background 0.3s;
+    }
+
+    .status-dot.live { background: var(--accent); box-shadow: 0 0 6px var(--accent); }
+    .status-dot.offline { background: var(--danger); }
+
+    .status-text.connecting { color: var(--text-dim); }
+    .status-text.connected { color: var(--accent); }
+    .status-text.offline { color: var(--danger); }
+
+    /* ── MAIN ── */
+    main {
+      flex: 1;
+      max-width: 1100px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .page-subtitle {
+      color: var(--text-dim);
+      font-size: 0.88rem;
+      margin-bottom: 2rem;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0.85rem 1.4rem;
+      min-width: 140px;
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .stat-value {
+      font-family: monospace;
+      font-size: 1.4rem;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 1.2rem;
+      max-width: 480px;
+    }
+
+    .search-wrap input {
+      width: 100%;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 0.6rem 1rem 0.6rem 2.4rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-wrap input::placeholder { color: var(--text-dim); }
+    .search-wrap input:focus { border-color: var(--primary); }
+
+    .search-wrap .search-icon {
+      position: absolute;
+      left: 0.75rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr {
+      background: rgba(0,0,0,0.3);
+    }
+
+    th {
+      text-align: left;
+      padding: 0.7rem 1rem;
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    th:hover { color: var(--primary); }
+
+    th .sort-arrow {
+      margin-left: 0.3rem;
+      opacity: 0.4;
+    }
+
+    th.sort-active .sort-arrow { opacity: 1; color: var(--primary); }
+
+    td {
+      padding: 0.65rem 1rem;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(42,42,62,0.5);
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+
+    tr:hover td { background: rgba(0,212,255,0.04); }
+
+    .rank-cell {
+      font-family: monospace;
+      color: var(--text-dim);
+      font-size: 0.8rem;
+      width: 50px;
+    }
+
+    .room-name-cell {
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+
+    .room-name-cell:hover { color: #fff; text-decoration: underline; }
+
+    .tile-cell, .phi-cell {
+      font-family: monospace;
+      color: var(--text);
+    }
+
+    .phi-cell { color: var(--secondary); }
+
+    /* ── EMPTY / LOADING ── */
+    .state-message {
+      text-align: center;
+      padding: 3rem;
+      color: var(--text-dim);
+    }
+
+    .state-message .emoji { font-size: 2.5rem; margin-bottom: 1rem; }
+    .state-message h3 { color: var(--text); margin-bottom: 0.4rem; }
+    .state-message p { font-size: 0.85rem; line-height: 1.6; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      max-width: 480px;
+      width: 100%;
+      overflow: hidden;
+      animation: modal-in 0.2s ease;
+    }
+
+    @keyframes modal-in {
+      from { transform: scale(0.95); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 1.2rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .modal-title { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal-body { padding: 1.4rem; }
+
+    .modal-stat {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.88rem;
+    }
+
+    .modal-stat:last-of-type { border-bottom: none; }
+
+    .modal-stat .label { color: var(--text-dim); }
+    .modal-stat .value { font-family: monospace; color: var(--text); font-weight: 600; }
+
+    .modal-note {
+      margin-top: 1.2rem;
+      background: rgba(123,47,255,0.1);
+      border: 1px solid rgba(123,47,255,0.3);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .modal-note strong { color: var(--secondary); }
+
+    .portal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 1rem;
+      background: var(--secondary);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: opacity 0.15s;
+    }
+
+    .portal-link:hover { opacity: 0.85; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 1.2rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      background: var(--card);
+    }
+
+    footer a { color: var(--text-dim); text-decoration: none; }
+    footer a:hover { color: var(--primary); }
+
+    .footer-brand { font-weight: 600; color: var(--text); }
+
+    @media (max-width: 600px) {
+      header { padding: 0 1rem; }
+      main { padding: 1rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+      .stats-bar { gap: 0.6rem; }
+      .stat-card { min-width: 110px; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <div class="brand">
-                <span class="brand-icon">🦀</span>
-                <div class="brand-text">
-                    <h1>PurplePincher</h1>
-                    <p>Agent Infrastructure for the Open Web</p>
-                </div>
-            </div>
-            <nav>
-                <a href="../papers/index.html">Papers</a>
-                <a href="../plato-library/index.html" class="active">PLATO Library</a>
-            </nav>
-        </div>
-    </header>
 
-    <div class="container">
-        <div class="live-status">
-            <div class="live-dot" id="live-dot"></div>
-            <span id="status-text">Connecting to PLATO...</span>
-        </div>
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <span class="icon">🦀</span>
+      <span class="name">PurplePincher</span>
+    </div>
+    <nav>
+      <a href="../papers/index.html">Papers</a>
+      <a href="index.html" class="active">PLATO Library</a>
+    </nav>
+    <div class="status-pill">
+      <span class="status-dot" id="statusDot"></span>
+      <span class="status-text connecting" id="statusText">Connecting…</span>
+    </div>
+  </header>
 
-        <div class="stats-bar" id="stats-bar" style="display:none">
-            <div class="stat">
-                <div class="stat-label">Rooms</div>
-                <div class="stat-value" id="stat-rooms">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Total Tiles</div>
-                <div class="stat-value" id="stat-tiles">—</div>
-            </div>
-            <div class="stat">
-                <div class="stat-label">Top Room</div>
-                <div class="stat-value" id="stat-top" style="font-size:1rem;color:var(--secondary)">—</div>
-            </div>
-        </div>
+  <!-- MAIN -->
+  <main>
+    <h1 class="page-title">PLATO Library</h1>
+    <p class="page-subtitle">Live room index from the PLATO oracle — top 50 by tile count</p>
 
-        <div class="search-wrap">
-            <input type="text" class="search-input" id="search" placeholder="Filter rooms by name...">
-        </div>
-
-        <div class="table-wrap">
-            <div id="content">
-                <div class="loading">Loading PLATO rooms...</div>
-            </div>
-        </div>
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-label">Total Rooms</div>
+        <div class="stat-value" id="statRooms">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total Tiles</div>
+        <div class="stat-value" id="statTiles">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Showing</div>
+        <div class="stat-value" id="statShowing">—</div>
+      </div>
     </div>
 
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal">
-            <h2 id="modal-room-name">room</h2>
-            <div class="tile-info" id="modal-tiles">0 tiles</div>
-            <p>Full tile content requires authenticated PLATO access. Connect via the Crab Trap Portal for live fleet coordination.</p>
-            <div class="modal-actions">
-                <a href="http://147.224.38.131:4059/?domain=purplepincher.org" class="btn-primary" target="_blank">Open Crab Trap Portal</a>
-                <a href="#" class="btn-secondary" onclick="closeModal(); return false;">Close</a>
-            </div>
-        </div>
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Filter rooms by name…" autocomplete="off">
     </div>
 
-    <footer>
-        <p>PurplePincher — PLATO-powered agent infrastructure</p>
-        <div class="footer-links">
-            <a href="https://purplepincher.org">purplepincher.org</a>
-            <a href="https://github.com/SuperInstance">SuperInstance GitHub</a>
-            <a href="http://147.224.38.131:4059/?domain=purplepincher.org">Crab Trap Portal</a>
+    <!-- TABLE -->
+    <div class="table-wrap">
+      <table id="roomsTable">
+        <thead>
+          <tr>
+            <th class="sort-active" data-sort="rank">
+              Rank<span class="sort-arrow">▲</span>
+            </th>
+            <th data-sort="name">
+              Room Name<span class="sort-arrow">▲</span>
+            </th>
+            <th data-sort="tiles">
+              Tile Count<span class="sort-arrow">▲</span>
+            </th>
+            <th data-sort="phi">
+              Phi<span class="sort-arrow">▲</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody id="roomsBody">
+          <tr>
+            <td colspan="4">
+              <div class="state-message">
+                <div class="emoji">🌊</div>
+                <h3>Connecting to PLATO oracle…</h3>
+                <p>Fetching room index from localhost:8847</p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalTitle">Room</div>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-stat">
+          <span class="label">Room Name</span>
+          <span class="value" id="modalName">—</span>
         </div>
-    </footer>
+        <div class="modal-stat">
+          <span class="label">Tile Count</span>
+          <span class="value" id="modalTiles">—</span>
+        </div>
+        <div class="modal-stat">
+          <span class="label">Phi (Complexity)</span>
+          <span class="value" id="modalPhi">—</span>
+        </div>
+        <div class="modal-note">
+          <strong>PLATO Access Required</strong><br>
+          Full tile content and room interaction require authenticated access via the Crab Trap Portal.
+        </div>
+        <a class="portal-link" href="#" id="portalLink">
+          🦀 Connect via Crab Trap Portal
+        </a>
+      </div>
+    </div>
+  </div>
 
-    <script>
-        const PLATO_API = 'http://localhost:8847';
-        let allRooms = [];
+  <!-- FOOTER -->
+  <footer>
+    <span><span class="footer-brand">PurplePincher</span> · PLATO Library Browser</span>
+    <span><a href="../papers/index.html">Papers</a> · <a href="index.html">PLATO Library</a></span>
+  </footer>
 
-        async function loadRooms() {
-            try {
-                const res = await fetch(`${PLATO_API}/rooms`);
-                if (!res.ok) throw new Error('API error ' + res.status);
-                const data = await res.json();
+  <script>
+    // ── State ──────────────────────────────────────────────────────────
+    let allRooms = [];
+    let filteredRooms = [];
+    let sortKey = 'tiles';
+    let sortAsc = false;
+    let currentFilter = '';
 
-                // Convert object to array and sort by tile_count desc
-                allRooms = Object.entries(data)
-                    .map(([name, info]) => ({ name, tile_count: info.tile_count }))
-                    .sort((a, b) => b.tile_count - a.tile_count);
+    const statusDot   = document.getElementById('statusDot');
+    const statusText  = document.getElementById('statusText');
+    const statRooms   = document.getElementById('statRooms');
+    const statTiles   = document.getElementById('statTiles');
+    const statShowing = document.getElementById('statShowing');
+    const searchInput = document.getElementById('searchInput');
+    const roomsBody   = document.getElementById('roomsBody');
+    const modalOverlay = document.getElementById('modalOverlay');
 
-                // Update live status
-                document.getElementById('live-dot').classList.remove('offline');
-                document.getElementById('status-text').textContent = 'PLATO Connected';
-
-                const totalTiles = allRooms.reduce((sum, r) => sum + r.tile_count, 0);
-                document.getElementById('stats-bar').style.display = 'flex';
-                document.getElementById('stat-rooms').textContent = allRooms.length;
-                document.getElementById('stat-tiles').textContent = totalTiles.toLocaleString();
-                document.getElementById('stat-top').textContent = allRooms[0].name;
-
-                renderTable(allRooms);
-            } catch (e) {
-                document.getElementById('live-dot').classList.add('offline');
-                document.getElementById('status-text').textContent = 'PLATO Offline — Connect via Crab Trap Portal';
-                document.getElementById('content').innerHTML = `
-                    <div class="error-state">
-                        <h3>PLATO Offline</h3>
-                        <p>Could not connect to the PLATO room server at ${PLATO_API}.</p>
-                        <a href="http://147.224.38.131:4059/?domain=purplepincher.org" class="btn-primary" target="_blank" style="display:inline-block;padding:0.5rem 1rem;background:linear-gradient(135deg,#7b2fff,#00d4ff);color:white;text-decoration:none;border-radius:8px;">Open Crab Trap Portal →</a>
-                    </div>`;
-            }
-        }
-
-        function renderTable(rooms) {
-            const tbody = rooms.map((r, i) => `
-                <tr>
-                    <td class="rank">${i + 1}</td>
-                    <td class="room-name" onclick="openModal('${r.name}', ${r.tile_count})">${r.name}</td>
-                    <td class="tile-count">${r.tile_count}</td>
-                </tr>`).join('');
-
-            document.getElementById('content').innerHTML = `
-                <table>
-                    <thead>
-                        <tr><th>#</th><th>Room Name</th><th>Tiles</th></tr>
-                    </thead>
-                    <tbody>${tbody}</tbody>
-                </table>`;
-        }
-
-        function openModal(name, tiles) {
-            document.getElementById('modal-room-name').textContent = name;
-            document.getElementById('modal-tiles').textContent = tiles + ' tiles';
-            document.getElementById('modal-overlay').classList.add('open');
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').classList.remove('open');
-        }
-
-        document.getElementById('modal-overlay').addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
+    // ── API Fetch ──────────────────────────────────────────────────────
+    async function fetchRooms() {
+      try {
+        const res = await fetch('http://localhost:8847/rooms', {
+          signal: AbortSignal.timeout(5000)
         });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
 
-        document.getElementById('search').addEventListener('input', function(e) {
-            const q = e.target.value.toLowerCase();
-            const filtered = allRooms.filter(r => r.name.toLowerCase().includes(q));
-            renderTable(filtered);
+        // Normalize: API may return { rooms: [...] } or [...]
+        allRooms = Array.isArray(data) ? data : (data.rooms || []);
+        setStatus('connected');
+        applyState();
+      } catch (err) {
+        console.warn('[PLATO Library] API fetch failed:', err.message);
+        setStatus('offline');
+        renderOffline();
+      }
+    }
+
+    // ── Status indicator ───────────────────────────────────────────────
+    function setStatus(state) {
+      statusDot.className = 'status-dot';
+      statusText.className = 'status-text';
+      if (state === 'connected') {
+        statusDot.classList.add('live');
+        statusText.classList.add('connected');
+        statusText.textContent = 'PLATO Connected';
+      } else if (state === 'offline') {
+        statusDot.classList.add('offline');
+        statusText.classList.add('offline');
+        statusText.textContent = 'PLATO Offline';
+      } else {
+        statusText.classList.add('connecting');
+        statusText.textContent = 'Connecting…';
+      }
+    }
+
+    // ── State machine ─────────────────────────────────────────────────
+    function applyState() {
+      if (!allRooms.length) {
+        renderEmpty('No rooms found in the oracle index.');
+        return;
+      }
+      filterAndSort();
+    }
+
+    function filterAndSort() {
+      const q = currentFilter.trim().toLowerCase();
+      filteredRooms = allRooms.filter(r => {
+        const name = (r.name || r.room_name || r.title || '').toLowerCase();
+        return !q || name.includes(q);
+      });
+
+      filteredRooms.sort((a, b) => {
+        let av, bv;
+        if (sortKey === 'name') {
+          av = (a.name || a.room_name || a.title || '').toLowerCase();
+          bv = (b.name || b.room_name || b.title || '').toLowerCase();
+          return sortAsc ? av.localeCompare(bv) : bv.localeCompare(av);
+        }
+        if (sortKey === 'rank') {
+          av = a.rank ?? a.tile_count ?? 0;
+          bv = b.rank ?? b.tile_count ?? 0;
+        } else if (sortKey === 'tiles' || sortKey === 'phi') {
+          av = a.tile_count ?? a.tiles ?? 0;
+          bv = b.tile_count ?? b.tiles ?? 0;
+        } else {
+          av = a[sortKey] ?? 0;
+          bv = b[sortKey] ?? 0;
+        }
+        return sortAsc ? av - bv : bv - av;
+      });
+
+      // Cap at 50
+      filteredRooms = filteredRooms.slice(0, 50);
+
+      const totalTiles = allRooms.reduce((s, r) => s + (r.tile_count || r.tiles || 0), 0);
+      statRooms.textContent = allRooms.length.toLocaleString();
+      statTiles.textContent = totalTiles.toLocaleString();
+      statShowing.textContent = filteredRooms.length.toLocaleString();
+
+      renderTable();
+    }
+
+    // ── Render helpers ────────────────────────────────────────────────
+    function renderTable() {
+      if (!filteredRooms.length) {
+        renderEmpty('No rooms match your filter.');
+        return;
+      }
+
+      roomsBody.innerHTML = filteredRooms.map((room, i) => {
+        const name  = room.name || room.room_name || room.title || '—';
+        const tiles = room.tile_count || room.tiles || 0;
+        const phi   = tiles; // phi === tile_count for now
+        const rank  = i + 1;
+
+        return `<tr>
+          <td class="rank-cell">#${rank}</td>
+          <td class="room-name-cell" data-room='${escHtml(JSON.stringify(room))}'>${escHtml(name)}</td>
+          <td class="tile-cell">${tiles.toLocaleString()}</td>
+          <td class="phi-cell">${phi.toLocaleString()}</td>
+        </tr>`;
+      }).join('');
+
+      // Attach click handlers for room names
+      roomsBody.querySelectorAll('.room-name-cell').forEach(cell => {
+        cell.addEventListener('click', () => {
+          const room = JSON.parse(cell.dataset.room);
+          openModal(room);
         });
+      });
+    }
 
-        loadRooms();
-    </script>
+    function renderEmpty(msg) {
+      roomsBody.innerHTML = `<tr>
+        <td colspan="4">
+          <div class="state-message">
+            <div class="emoji">📭</div>
+            <h3>${msg}</h3>
+          </div>
+        </td>
+      </tr>`;
+    }
+
+    function renderOffline() {
+      statRooms.textContent = '—';
+      statTiles.textContent = '—';
+      statShowing.textContent = '—';
+      roomsBody.innerHTML = `<tr>
+        <td colspan="4">
+          <div class="state-message">
+            <div class="emoji">🦀</div>
+            <h3>PLATO Offline</h3>
+            <p>Connect via the Crab Trap Portal to access the room index.<br>The oracle at localhost:8847 is not reachable.</p>
+          </div>
+        </td>
+      </tr>`;
+    }
+
+    function escHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // ── Modal ─────────────────────────────────────────────────────────
+    function openModal(room) {
+      const name  = room.name || room.room_name || room.title || '—';
+      const tiles = room.tile_count || room.tiles || 0;
+      const phi   = tiles;
+
+      document.getElementById('modalTitle').textContent = name;
+      document.getElementById('modalName').textContent = name;
+      document.getElementById('modalTiles').textContent = tiles.toLocaleString();
+      document.getElementById('modalPhi').textContent = phi.toLocaleString();
+      document.getElementById('portalLink').href = '#';
+
+      modalOverlay.classList.add('open');
+    }
+
+    document.getElementById('modalClose').addEventListener('click', () => {
+      modalOverlay.classList.remove('open');
+    });
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) modalOverlay.classList.remove('open');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') modalOverlay.classList.remove('open');
+    });
+
+    // ── Search ────────────────────────────────────────────────────────
+    searchInput.addEventListener('input', () => {
+      currentFilter = searchInput.value;
+      if (allRooms.length) filterAndSort();
+    });
+
+    // ── Sort headers ──────────────────────────────────────────────────
+    document.querySelectorAll('th[data-sort]').forEach(th => {
+      th.addEventListener('click', () => {
+        const key = th.dataset.sort;
+        if (sortKey === key) {
+          sortAsc = !sortAsc;
+        } else {
+          sortKey = key;
+          sortAsc = (key === 'name');
+        }
+        document.querySelectorAll('th').forEach(h => h.classList.remove('sort-active'));
+        th.classList.add('sort-active');
+        th.querySelector('.sort-arrow').textContent =
+          sortAsc ? '▼' : '▲';
+        if (allRooms.length) filterAndSort();
+      });
+    });
+
+    // ── Boot ──────────────────────────────────────────────────────────
+    fetchRooms();
+  </script>
 </body>
 </html>
