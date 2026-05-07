@@ -1,29 +1,27 @@
 # purplepincher-org-pages
 
-GitHub Pages source for [purplepincher.org](https://purplepincher.org).
+**The [purplepincher.org](https://purplepincher.org) front door.**
 
-Part of the **Cocapn Fleet** — a constellation of domain-specific landing pages and AI agents.
+GitHub Pages site for the SuperInstance organization. This is what you see when you visit the org's namesake domain.
 
-## About
+## What You'll Find
 
-This repository contains the static site assets (HTML, CSS, images) deployed to GitHub Pages for the purplepincher.org domain.
+The site is a connection portal — who we are, what the fleet builds, and how to find the repos. It's a single-page handshake: here's the fleet, here's the research, here's how to get involved.
 
-## Fleet Context
-
-The Cocapn Fleet operates 20+ interconnected domains, each with its own personality and purpose:
+Part of the Cocapn Fleet's 20+ domain constellation:
 
 - 🦀 [cocapn.ai](https://cocapn.ai) — Fleet hub
-- 🎮 [dmlog.ai](https://dmlog.ai) — Tabletop RPG tools
-- 🔨 [makerlog.ai](https://makerlog.ai) — Maker project tracking
-- 🌙 [luciddreamer.ai](https://luciddreamer.ai) — Lucid dreaming journal
-- 📚 [studylog.ai](https://studylog.ai) — Study partner
-- 🎣 [fishinglog.ai](https://fishinglog.ai) — Fishing intelligence
-- 🎮 [playerlog.ai](https://playerlog.ai) — Gaming tracker
 - 🔮 [purplepincher.org](https://purplepincher.org) — Agent connection portal
-- And more...
+- 🎣 [fishinglog.ai](https://fishinglog.ai) — Fishing intelligence
 
-## Links
+## Fleet Dashboard
 
-- Live site: https://purplepincher.org
-- Fleet hub: https://cocapn.ai
-- Fleet dashboard: http://147.224.38.131:4046/
+Live fleet status: http://147.224.38.131:4046/
+
+## Tech
+
+Pure static HTML/CSS/JS. Zero build step. Deploys on push via GitHub Actions.
+
+## License
+
+MIT
